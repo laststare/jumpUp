@@ -1,6 +1,5 @@
 ﻿using CodeBase.Content;
 using CodeBase.Game.LevelParts.Level;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -34,7 +33,6 @@ namespace CodeBase.Game
 
         private readonly ReactiveTrigger _destroy = new ReactiveTrigger();
         private GamePlayEntity _gamePlayEntity;
-        private GameInput _gameInput;
         
         public GameEntity(Ctx ctx)
         {

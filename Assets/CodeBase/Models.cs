@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace JumpUp.Data
+namespace CodeBase
 {
     public class Leader
     {
-        public Transform player;
-        public float dist;
+        public readonly Transform Player;
+        public readonly float Dist;
 
-        public Leader(Transform _leader, float _dist)
+        public Leader(Transform leader, float distance)
         {
-            player = _leader;
-            dist = _dist;
+            Player = leader;
+            Dist = distance;
         }
     }
 

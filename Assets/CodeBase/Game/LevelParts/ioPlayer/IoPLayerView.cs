@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CodeBase.Game.interfaces;
 using CodeBase.Game.LevelParts.Jumper;
 using Cysharp.Threading.Tasks;
-using JumpUp;
 using JumpUp.External;
 using MoreMountains.NiceVibrations;
 using UniRx;

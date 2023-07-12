@@ -5,7 +5,6 @@ using CodeBase.Game.LevelParts.Finish;
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
 using CodeBase.Game.LevelParts.Player;
-using JumpUp;
 using UnityEditor;
 using UnityEngine;
 

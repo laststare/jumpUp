@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Cinemachine;
+﻿using Cinemachine;
 using CodeBase.Content;
 using Cysharp.Threading.Tasks;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

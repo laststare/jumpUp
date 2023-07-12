@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using CodeBase.Game.LevelParts.Finish;
 using CodeBase.Game.LevelParts.Jumper;
 using Cysharp.Threading.Tasks;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

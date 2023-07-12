@@ -2,7 +2,6 @@
 using CodeBase.Game;
 using CodeBase.UI;
 using CodeBase.UI.Input;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

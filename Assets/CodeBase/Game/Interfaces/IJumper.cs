@@ -1,4 +1,4 @@
-﻿using JumpUp;
+﻿
 
 namespace CodeBase.Game.interfaces
 {

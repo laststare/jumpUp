@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using CodeBase.Game.interfaces;
-using JumpUp;
 using UniRx;
 using UnityEngine;
 

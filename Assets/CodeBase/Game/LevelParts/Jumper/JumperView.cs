@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using CodeBase.Content;
+﻿using CodeBase.Content;
 using CodeBase.Game.interfaces;
 using Cysharp.Threading.Tasks;
-using JumpUp;
 using MoreMountains.NiceVibrations;
 using UnityEngine;
 

@@ -3,7 +3,6 @@ using CodeBase.Content;
 using CodeBase.Game.LevelParts.Camera;
 using CodeBase.Game.LevelParts.Level;
 using CodeBase.Game.LevelParts.Player;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

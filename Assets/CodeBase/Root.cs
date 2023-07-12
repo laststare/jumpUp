@@ -1,7 +1,5 @@
 ﻿using CodeBase.Content;
-using CodeBase.UI;
 using CodeBase.UI.Input;
-using JumpUp;
 using JumpUp.External;
 using UnityEngine;
 

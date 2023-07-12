@@ -1,6 +1,5 @@
 ﻿using Cinemachine;
 using CodeBase.Content;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

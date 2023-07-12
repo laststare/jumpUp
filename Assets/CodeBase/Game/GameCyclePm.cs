@@ -1,5 +1,4 @@
-﻿using JumpUp;
-using JumpUp.External;
+﻿using JumpUp.External;
 using UniRx;
 
 namespace CodeBase.Game

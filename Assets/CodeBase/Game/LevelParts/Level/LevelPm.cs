@@ -6,8 +6,6 @@ using CodeBase.Game.LevelParts.Finish;
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
 using Cysharp.Threading.Tasks;
-using JumpUp;
-using JumpUp.Data;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -260,11 +258,11 @@ namespace CodeBase.Game.LevelParts.Level
                     leaders.Add(new Leader(p, d));
                 }
 
-                leaders = leaders.OrderBy(w => w.dist).ToList();
-                _ctx.leader.Notify(leaders[0].player);
+                leaders = leaders.OrderBy(w => w.Dist).ToList();
+                _ctx.leader.Notify(leaders[0].Player);
                 for (var i = 0; i < leaders.Count; i++)
                 {
-                    if (leaders[i].player == _ctx.player.Value)
+                    if (leaders[i].Player == _ctx.player.Value)
                         _ctx.playersRacePlace.Value = i + 1;            
                 }
                 leaders.Clear();

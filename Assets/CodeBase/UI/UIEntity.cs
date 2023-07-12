@@ -1,7 +1,6 @@
 ﻿using CodeBase.Content;
 using CodeBase.UI.Input;
 using DigitalRubyShared;
-using JumpUp;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
