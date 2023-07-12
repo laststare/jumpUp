@@ -87,7 +87,6 @@ namespace CodeBase
                 player = _player,
                 _onClick = _onClick,
                 endlessSignTutor = _endlessSignTutor,
-                controll = _ctx.controll,
                 blocksContainer = _ctx.blocksContainer,
                 needStartTutor = _needStartTutor,
                 winnerName = _winnerName,

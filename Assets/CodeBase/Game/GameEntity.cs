@@ -21,7 +21,6 @@ namespace CodeBase.Game
             public ReactiveProperty<Transform> player;
             public ReactiveTrigger _onClick;
             public ReactiveProperty<GameObject> endlessSignTutor;
-            public DigitalRubyShared.FingersJoystickScript controll;
             public Transform blocksContainer;
             public ReactiveProperty<bool> needStartTutor;
             public ReactiveProperty<string> winnerName;
@@ -53,7 +52,7 @@ namespace CodeBase.Game
             AddUnsafe(_onGameOver.Subscribe(RestartLevel));
             AddUnsafe(_onFinish.Subscribe(() => StartLevel(_ctx.levelIndex.Value + 1)));
             AddUnsafe(_ctx.countingIsOver.Subscribe(() => { _ctx.gameState.Value = GameState.PLAY; }));
-            var gamePmCtx = new GamePm.Ctx()
+            var gameCyclePmCtx = new GameCyclePm.Ctx()
             {
                 GameState = _ctx.gameState,
                 OnClick = _ctx._onClick,
@@ -61,8 +60,8 @@ namespace CodeBase.Game
                 Finish = _ctx.Finish,
                 needStartTutor = _ctx.needStartTutor,
             };
-            var gamePm = new GamePm(gamePmCtx);
-            AddUnsafe(gamePm);
+            var gameCyclePm = new GameCyclePm(gameCyclePmCtx);
+            AddUnsafe(gameCyclePm);
         }
 
         #region levels      

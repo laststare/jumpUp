@@ -31,25 +31,18 @@ namespace CodeBase.Game {
         private PlayerEntity _playerEntity;
         private LevelEntity _levelEntity;
         private CameraEntity _cameraEntity;
-        private readonly ReactiveEvent<GameObject> _floorPart;
-        private readonly ReactiveEvent<GameObject> _roofPart;
-        private readonly ReactiveEvent<float> _shake;
-        private readonly ReactiveEvent<bool> _flyUp;
-        private readonly ReactiveProperty<Camera> _camera;
-        private readonly ReactiveProperty<List<Transform>> _players;
-        private readonly ReactiveEvent<Transform> _leader;
+        private readonly ReactiveEvent<GameObject> _floorPart = new ReactiveEvent<GameObject>();
+        private readonly ReactiveEvent<GameObject> _roofPart = new ReactiveEvent<GameObject>();
+        private readonly ReactiveEvent<float> _shake = new ReactiveEvent<float>();
+        private readonly ReactiveEvent<bool> _flyUp = new ReactiveEvent<bool>();
+        private readonly ReactiveProperty<Camera> _camera = new ReactiveProperty<Camera>();
+        private readonly ReactiveProperty<List<Transform>> _players = new ReactiveProperty<List<Transform>>(new List<Transform>());
+        private readonly ReactiveEvent<Transform> _leader = new ReactiveEvent<Transform>();
 
         private readonly Ctx _ctx;
         public GamePlayEntity(Ctx ctx, Level level)
         {
             _ctx = ctx;
-            _floorPart = new ReactiveEvent<GameObject>();
-            _roofPart = new ReactiveEvent<GameObject>();
-            _shake = new ReactiveEvent<float>();
-            _flyUp = new ReactiveEvent<bool>();
-            _camera = new ReactiveProperty<UnityEngine.Camera>();
-            _players = new ReactiveProperty<List<Transform>>(new List<Transform>());
-            _leader = new ReactiveEvent<Transform>();
             AddUnsafe(_ctx.destroy.Subscribe(DestroyEverything));
             CreatePlayerEntity(level);
             CreateLevelEntity(level);

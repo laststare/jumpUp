@@ -4,7 +4,7 @@ using UniRx;
 
 namespace CodeBase.Game
 {
-    public class GamePm : BaseDisposable
+    public class GameCyclePm : BaseDisposable
     {
         public struct Ctx
         {
@@ -19,7 +19,7 @@ namespace CodeBase.Game
         private readonly Ctx  _ctx;
         private GameState  _currenGameState;
 
-        public GamePm(Ctx ctx)
+        public GameCyclePm(Ctx ctx)
         {
             _ctx = ctx;
             AddUnsafe(ctx.GameState.Subscribe(x => _currenGameState = x));
