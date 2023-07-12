@@ -120,11 +120,10 @@ namespace CodeBase
                 moveCoor = _moveCoordinates,
                 _onClick = _onClick,
                 gameInfoView = _ctx.gameInfoView,
-                player = _player,
                 controll = _ctx.controll,
                 showTutor = _showTutor,
                 winnerName = _winnerName,
-                go = _startGame,
+                startGame = _startGame,
                 levelCounter = _levelCounter,
                 playersRacePlace = _playersRacePlace
             };

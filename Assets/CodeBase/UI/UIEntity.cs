@@ -19,11 +19,10 @@ namespace CodeBase.UI
             public InputView inputview;
             public ReactiveEvent<Vector2> moveCoor;
             public ReactiveTrigger _onClick;
-            public ReactiveProperty<Transform> player;
             public FingersJoystickScript controll;
             public ReactiveTrigger showTutor;
             public ReactiveProperty<string> winnerName;
-            public ReactiveTrigger go;
+            public ReactiveTrigger startGame;
             public ReactiveProperty<int> levelCounter;
             public ReactiveProperty<int> playersRacePlace;
         }
@@ -54,7 +53,7 @@ namespace CodeBase.UI
                 _levelIndex = _ctx._levelIndex,
                 showTutor = _ctx.showTutor,
                 winnerName = _ctx.winnerName,
-                go = _ctx.go,
+                startGame = _ctx.startGame,
                 levelCounter = _ctx.levelCounter,
                 playersRacePlace = _ctx.playersRacePlace
             };

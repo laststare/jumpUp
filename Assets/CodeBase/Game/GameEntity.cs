@@ -71,25 +71,20 @@ namespace CodeBase.Game
             PreloadLevel(levelIndex);
         }
 
-        private void RestartLevel()
-        {
-            PreloadLevel(_ctx.levelIndex.Value);
-        }
+        private void RestartLevel() => PreloadLevel(_ctx.levelIndex.Value);
 
         private void PreloadLevel(int levelIndex)
         {
             _destroy.Notify();
             _ctx.levelIndex.Value = levelIndex;
             var level = new Level(_ctx.contentLoader.GetLevelContainer(levelIndex));
-            CreateFightEntity(level);  
+            CreateGamePlayEntity(level);  
             _ctx.gameState.Value = GameState.START;
         }
 
         #endregion
 
-        #region Creating Entities
-
-        private void CreateFightEntity(Level level)
+        private void CreateGamePlayEntity(Level level)
         {
             var gamePlayEntityCtx = new GamePlayEntity.Ctx()
             {
@@ -111,9 +106,6 @@ namespace CodeBase.Game
             _gamePlayEntity = new GamePlayEntity(gamePlayEntityCtx, level);
             AddUnsafe(_gamePlayEntity);
         }
-
-        #endregion
-
-     
+        
     }
 }

@@ -9,19 +9,19 @@ namespace CodeBase.UI
 {
     public class GameInfoView : MonoBehaviour
     {
-        private Text tx;
+        private Text _centralText;
         [SerializeField] 
         private Text downSideText, levelnumText, counetrTx,  winLoseTx, winnerName, playersRacePlace;
         [SerializeField]
         private GameObject  waitingText, bigTutortx, complete, backDown, backUp;
-        private int fakeLevelCounter;
+        private int _fakeLevelCounter;
         public struct Ctx
         {
             public IReactiveProperty<GameState> gameState;
             public IReadOnlyReactiveProperty<int> _levelIndex;
             public ReactiveTrigger showTutor;
             public ReactiveProperty<string> winnerName;
-            public ReactiveTrigger go;
+            public ReactiveTrigger startGame;
             public ReactiveProperty<int> levelCounter;
             public ReactiveProperty<int> playersRacePlace;
         }
@@ -35,20 +35,20 @@ namespace CodeBase.UI
         public void SetMain(Ctx ctx)
         {
             _ctx = ctx;
-            tx = GetComponent<Text>();
+            _centralText = GetComponent<Text>();
             _anim = GetComponent<Animator>();
             _ctx.gameState.Subscribe(ReactGameState).AddTo(this);
-            _ctx._levelIndex.Subscribe(LevelConunter).AddTo(this);
-            _ctx.winnerName.Subscribe(SetWinner);
+            _ctx._levelIndex.Subscribe(LevelCounter).AddTo(this);
+            _ctx.winnerName.Subscribe(SetWinner).AddTo(this);
             _ctx.playersRacePlace.Subscribe(x => playersRacePlace.text = NumConverter(x)).AddTo(this);
-            _ctx.go.Subscribe(DeactivateDownStripe).AddTo(this);
+            _ctx.startGame.Subscribe(DeactivateDownStripe).AddTo(this);
         }
 
         private void DeactivateDownStripe() => backDown.SetActive(false);
 
         private void SetWinner(string winner) => _winnerName = $"{winner} WINS";
 
-        private void LevelConunter(int i)
+        private void LevelCounter(int i)
         {
             _level = PlayerPrefs.GetInt("level");
             _currenLevel = $"LEVEL {_level +1}";
@@ -62,7 +62,7 @@ namespace CodeBase.UI
                 case GameState.START:
                     _anim.enabled = true;
                     backDown.SetActive(true);
-                    tx.text = "TAP TO PLAY";
+                    _centralText.text = "TAP TO PLAY";
                     complete.SetActive(false);
                     backUp.SetActive(false);
                     _ctx.levelCounter.Value++;
@@ -71,13 +71,13 @@ namespace CodeBase.UI
                 case GameState.BIGTUTOR:
                     levelnumText.text = "";
                     _anim.enabled = false;
-                    tx.text = "";
+                    _centralText.text = "";
                     bigTutortx.SetActive(true);
                     break;
                 case GameState.COUNTER:
                     levelnumText.text = _currenLevel;
                     _anim.enabled = false;
-                    tx.text = "";
+                    _centralText.text = "";
                     winnerName.text = "";
                     _winnerName = "";
                     bigTutortx.SetActive(false);
@@ -86,14 +86,14 @@ namespace CodeBase.UI
                 case GameState.PLAY:
                     playersRacePlace.enabled = true;
                     _anim.enabled = false;
-                    tx.text = "";
+                    _centralText.text = "";
                     break;
                 case GameState.FINISH:
                     complete.SetActive(true);
                     backDown.SetActive(true);
                     winLoseTx.text = "YOU WIN!";
                     _anim.enabled = true;
-                    tx.text = "TAP TO NEXT";
+                    _centralText.text = "TAP TO NEXT";
                     playersRacePlace.enabled = false;
                     winnerName.text = $"LEVEL {_level + 1} COMPLETE";
                     break;
@@ -102,10 +102,9 @@ namespace CodeBase.UI
                     complete.SetActive(true);
                     winLoseTx.text = "YOU LOSE!";                
                     _anim.enabled = true;
-                    tx.text = "TAP TO REPLAY";
+                    _centralText.text = "TAP TO REPLAY";
                     winnerName.text = _winnerName;
                     backDown.SetActive(true);
-
                     break;
             }
         }
@@ -133,8 +132,6 @@ namespace CodeBase.UI
             backUp.SetActive(false);
 
         }
-        
-
 
         private string NumConverter(int n)
         {
