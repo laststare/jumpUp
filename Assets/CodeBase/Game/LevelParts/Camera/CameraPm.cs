@@ -2,6 +2,7 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using JumpUp;
+using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -12,36 +13,33 @@ namespace CodeBase.Game.LevelParts.Camera
     {
         public struct Ctx
         {
+            public IContent content;
             public IReadOnlyReactiveProperty<Transform> player;
             public IReactiveProperty<GameState> gameState;
             public ReactiveProperty<CinemachineVirtualCamera> vcam;
-            public ReactiveProperty<Transform> _bigTutorSphere;
-            public ReactiveProperty<bool> needBigTutor;
+            public ReactiveProperty<Transform> _startTutorSphere;
+            public ReactiveProperty<bool> needStartTutor;
+            public Transform uiCanvas;
         }
 
         private Ctx _ctx;
         private Transform _cam;
-        private Transform _player;
         private CinemachineVirtualCamera _vcam;
-        private Transform _bigTutorSphere;
+        private Transform _startTutorSphere;
 
         public CameraPm(Ctx ctx)
         {
             _ctx = ctx;
-            AddUnsafe(_ctx.player.Subscribe(SetPlayer));
             AddUnsafe(_ctx.gameState.Subscribe(GameStateReceiver));
             AddUnsafe(_ctx.vcam.Subscribe(GetCamera));
-            AddUnsafe(_ctx._bigTutorSphere.Subscribe(GetBigTutorSphere));
+            AddUnsafe(_ctx._startTutorSphere.Subscribe(GetStartTutorSphere));
         }
 
-        private void GetBigTutorSphere(Transform bigTutorSphere) => _bigTutorSphere = bigTutorSphere;
-
-
+        private void GetStartTutorSphere(Transform startTutorSphere) => _startTutorSphere = startTutorSphere;
+        
         private void GetCamera(CinemachineVirtualCamera vcam) => _vcam = vcam;
 
-        private void SetPlayer(Transform playerTransform) => _player = playerTransform;
         
-
         private async void GoBack()
         {
             float time = 0;
@@ -54,7 +52,6 @@ namespace CodeBase.Game.LevelParts.Camera
             }
             _vcam.m_Lens.FieldOfView = 50;
         }
-
 
         private async void GoFar()
         {
@@ -83,23 +80,25 @@ namespace CodeBase.Game.LevelParts.Camera
         }
 
 
-        private async void BigTutorFly()
+        private async void StartTutorFly()
         {
+            var startTutorText = Object.Instantiate(_ctx.content.GetStartTutorText(), _ctx.uiCanvas);
             GoFar();
-            _bigTutorSphere.parent = null;
-            _bigTutorSphere.position = _ctx.player.Value.position;
-            _bigTutorSphere.eulerAngles = new Vector3(0, 45, 0);
-            _bigTutorSphere.gameObject.SetActive(true);
-            _vcam.Follow = _bigTutorSphere;
-            _vcam.LookAt = _bigTutorSphere;
+            _startTutorSphere.parent = null;
+            _startTutorSphere.position = _ctx.player.Value.position;
+            _startTutorSphere.eulerAngles = new Vector3(0, 45, 0);
+            _startTutorSphere.gameObject.SetActive(true);
+            _vcam.Follow = _startTutorSphere;
+            _vcam.LookAt = _startTutorSphere;
             await UniTask.Delay(8000);
             _vcam.Follow = _ctx.player.Value;
             _vcam.LookAt = _ctx.player.Value;
             GoCloser();
-            Object.Destroy(_bigTutorSphere.gameObject);
+            Object.Destroy(_startTutorSphere.gameObject);
             _ctx.gameState.Value = GameState.COUNTER;
-            PlayerPrefs.SetInt("bigTutor", 1);
-            _ctx.needBigTutor.Value = false;
+            PlayerPrefs.SetInt("startTutor", 1);
+            _ctx.needStartTutor.Value = false;
+            Object.Destroy(startTutorText);
         }
 
         private void GameStateReceiver(GameState state)
@@ -109,8 +108,8 @@ namespace CodeBase.Game.LevelParts.Camera
                 case GameState.COUNTER:
                     GoBack();
                     break;
-                case GameState.BIGTUTOR:
-                    BigTutorFly();
+                case GameState.STARTTUTOR:
+                    StartTutorFly();
                     break;
             }
         }

@@ -13,11 +13,10 @@ namespace CodeBase
         public struct Ctx
         {
             public PrefabsInfo prefabs;
-            public GameInfoView gameInfoView;
             public InputView inputview;
-            public Transform tutor;
             public DigitalRubyShared.FingersJoystickScript controll;
             public Transform blocksContainer;
+            public Transform uiCanvas;
         }
 
         private readonly Ctx  _ctx;
@@ -46,11 +45,10 @@ namespace CodeBase
             var ctx = new RootEntity.Ctx
             {
                 prefabs = _ctx.prefabs,
-                gameInfoView = _ctx.gameInfoView,
                 inputview = _ctx.inputview,
-                tutor = _ctx.tutor,
                 controll = _ctx.controll,
                 blocksContainer = _ctx.blocksContainer,
+                uiCanvas = _ctx.uiCanvas
             };
             _rootEntity = new RootEntity(ctx);
             AddUnsafe(_rootEntity);

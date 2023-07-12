@@ -20,14 +20,15 @@ namespace CodeBase.Game
             public ReactiveEvent<Vector2> moveCoor;
             public ReactiveProperty<Transform> player;
             public ReactiveTrigger _onClick;
-            public Transform tutor;
+            public ReactiveProperty<GameObject> endlessSignTutor;
             public DigitalRubyShared.FingersJoystickScript controll;
             public Transform blocksContainer;
-            public ReactiveTrigger showTutor;
-            public ReactiveProperty<bool> needBigTutor;
+            public ReactiveProperty<bool> needStartTutor;
             public ReactiveProperty<string> winnerName;
             public ReactiveTrigger startGame;
             public ReactiveProperty<int> playersRacePlace;
+            public Transform uiCanvas;
+            public ReactiveTrigger countingIsOver;
         }
 
         private readonly Ctx _ctx;
@@ -51,13 +52,14 @@ namespace CodeBase.Game
             AddUnsafe(_onStart.Subscribe(() => StartLevel(_ctx.levelIndex.Value)));
             AddUnsafe(_onGameOver.Subscribe(RestartLevel));
             AddUnsafe(_onFinish.Subscribe(() => StartLevel(_ctx.levelIndex.Value + 1)));
+            AddUnsafe(_ctx.countingIsOver.Subscribe(() => { _ctx.gameState.Value = GameState.PLAY; }));
             var gamePmCtx = new GamePm.Ctx()
             {
                 GameState = _ctx.gameState,
                 OnClick = _ctx._onClick,
                 GameOver = _ctx.GameOver,
                 Finish = _ctx.Finish,
-                NeedBigTutor = _ctx.needBigTutor,
+                needStartTutor = _ctx.needStartTutor,
             };
             var gamePm = new GamePm(gamePmCtx);
             AddUnsafe(gamePm);
@@ -94,13 +96,13 @@ namespace CodeBase.Game
                 levelIndex = _ctx.levelIndex,
                 moveCoor = _ctx.moveCoor,
                 player = _ctx.player,
-                tutor = _ctx.tutor,
+                endlessSignTutor = _ctx.endlessSignTutor,
                 blocksContainer = _ctx.blocksContainer,
-                showTutor = _ctx.showTutor,
-                needBigTutor = _ctx.needBigTutor,
+                needStartTutor = _ctx.needStartTutor,
                 winnerName = _ctx.winnerName,
                 startGame = _ctx.startGame,
-                playersRacePlace = _ctx.playersRacePlace
+                playersRacePlace = _ctx.playersRacePlace,
+                uiCanvas = _ctx.uiCanvas
             };
 
             _gamePlayEntity = new GamePlayEntity(gamePlayEntityCtx, level);

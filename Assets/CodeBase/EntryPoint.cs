@@ -9,11 +9,10 @@ namespace CodeBase
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField] protected PrefabsInfo prefabs;
-        [SerializeField] protected GameInfoView gameInfoView;
         [SerializeField] protected InputView inputview;
-        [SerializeField] protected Transform tutor;
         [SerializeField] protected DigitalRubyShared.FingersJoystickScript controll;
         [SerializeField] protected Transform blocksContainer;
+        [SerializeField] protected Transform uiCanvas;
 
 
         private Root _root;
@@ -27,11 +26,10 @@ namespace CodeBase
             _root = Root.CreateRoot(new Root.Ctx
             {
                 prefabs = prefabs,
-                gameInfoView = gameInfoView,
                 inputview = inputview,
-                tutor = tutor,
                 controll = controll,
                 blocksContainer = blocksContainer,
+                uiCanvas = uiCanvas
             }) ;
         }
         

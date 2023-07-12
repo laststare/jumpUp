@@ -19,7 +19,7 @@ namespace CodeBase.Game.LevelParts.Player
             public IReactiveProperty<GameState> gameState;
             public IReadOnlyReactiveEvent<Vector2> moveCoor;
             public ReactiveProperty<Vector3> moveDirection;
-            public Transform tutor;
+            public ReactiveProperty<GameObject> endlessSignTutor;
             public ReactiveTrigger die;
             public ReactiveTrigger startGame;
             public Level.Level Level;
@@ -31,7 +31,6 @@ namespace CodeBase.Game.LevelParts.Player
             public IReadOnlyReactiveTrigger finish;
             public ReactiveProperty<UnityEngine.Camera> camera;
             public ReactiveProperty<Transform> _name;
-            public ReactiveTrigger showTutor;
             public ReactiveProperty<LayerMask> maskUpper;
         }
 
@@ -56,7 +55,6 @@ namespace CodeBase.Game.LevelParts.Player
             AddUnsafe(_ctx.moveCoor.Subscribe(GetCoor));
             AddUnsafe(_ctx.finish.Subscribe(Finish));
             AddUnsafe(_ctx._name.Subscribe(GetName));
-            AddUnsafe(_ctx.showTutor.Subscribe(ShowTutor));
         }
 
         private void GetPlayer(Transform player)
@@ -69,14 +67,13 @@ namespace CodeBase.Game.LevelParts.Player
 
         private void GetCoor(Vector2 moveCoor) =>  _moveCoor = moveCoor;
                   
-        private void ShowTutor() => _ctx.tutor.gameObject.SetActive(true);
         private async void WaitTouch()
         {
             while (_moveCoor == Vector2.zero)
             {
                 await Task.Yield();
             }
-            _ctx.tutor.gameObject.SetActive(false);
+            Object.Destroy(_ctx.endlessSignTutor.Value);
             _ctx.startGame.Notify();
             _canDelete = true;
         }
@@ -155,7 +152,7 @@ namespace CodeBase.Game.LevelParts.Player
                     AddUnsafe(_ctx.moveCoor.Subscribe(x => Move(x)));
                     break;
                 case GameState.GAMEOVER:
-                    _ctx.tutor.gameObject.SetActive(false);
+                    Object.Destroy(_ctx.endlessSignTutor.Value);
                     MoveWithOutControl();
                     break;
             }

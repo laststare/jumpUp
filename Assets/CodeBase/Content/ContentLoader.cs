@@ -5,6 +5,7 @@ using CodeBase;
 using CodeBase.Content;
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
+using CodeBase.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,15 +28,16 @@ namespace JumpUp.Content
         GameObject GetEmptyCell();
         Material GetGlassMat();
         Material GetWhiteMat();
-
         IoPLayerView GetIoPlayer(ioPlayerType type);
-
-        PlayersNameView GetPlayersName();
-
         string GetIoName();
 
         void ResetLevel();
         Material GetManMaterial();
+        GameObject GetStartTutorText();
+        GameInfoView GetGameInfoView();
+        StartCounterView GetStartCounterView();
+        GameObject GetEndlessSignTutor();
+        WinTextView GetWinTextView();
 
     }
 
@@ -147,6 +149,12 @@ namespace JumpUp.Content
             _skins.RemoveAt(i);
             return m;
         }
+
+        public GameObject GetStartTutorText() => _prefabs.startTutorText;
+        public GameInfoView GetGameInfoView() => _prefabs.gameInfoView;
+        public StartCounterView GetStartCounterView() => _prefabs.startCounter;
+        public GameObject GetEndlessSignTutor() => _prefabs.endlessSignTutor;
+        public WinTextView GetWinTextView() => _prefabs.winTextView;
 
         public void ResetLevel()
         {

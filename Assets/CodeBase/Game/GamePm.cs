@@ -12,7 +12,7 @@ namespace CodeBase.Game
             public IReadOnlyReactiveTrigger OnClick;
             public ReactiveTrigger GameOver;
             public ReactiveTrigger Finish;
-            public ReactiveProperty<bool> NeedBigTutor;
+            public ReactiveProperty<bool> needStartTutor;
         }
 
 
@@ -31,20 +31,14 @@ namespace CodeBase.Game
         {
             switch (_currenGameState)
             {
-                case GameState.NONE:
-                    break;
                 case GameState.START:
-                        _ctx.GameState.Value = _ctx.NeedBigTutor.Value? GameState.BIGTUTOR : GameState.COUNTER;
-                    break;
-                case GameState.PLAY:
+                        _ctx.GameState.Value = _ctx.needStartTutor.Value? GameState.STARTTUTOR : GameState.COUNTER;
                     break;
                 case GameState.FINISH:
                        _ctx.Finish.Notify();
                     break;
                 case GameState.GAMEOVER:
                       _ctx.GameOver.Notify();
-                    break;
-                case GameState.TUTOR:
                     break;
             }
         }

@@ -16,7 +16,7 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<Transform> player;
             public IReactiveProperty<GameState> gameState;
             public Level.Level Level;
-            public Transform tutor;
+            public ReactiveProperty<GameObject> endlessSignTutor;
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
             public ReactiveEvent<float> shake;
@@ -24,7 +24,6 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<UnityEngine.Camera> camera;
             public ReactiveProperty<List<Transform>> players;
             public ReactiveEvent<Transform> leader;
-            public ReactiveTrigger showTutor;
             public ReactiveTrigger startGame;
         }
 
@@ -64,7 +63,7 @@ namespace CodeBase.Game.LevelParts.Player
                 moveDirection = _moveDirection,
                 gameState = _ctx.gameState,
                 moveCoor = _ctx.moveCoor,
-                tutor = _ctx.tutor,
+                endlessSignTutor = _ctx.endlessSignTutor,
                 die = _die,
                 startGame = _ctx.startGame,
                 floorPart = _ctx.floorPart,
@@ -75,7 +74,6 @@ namespace CodeBase.Game.LevelParts.Player
                 finish = _finish,
                 camera = _ctx.camera,
                 _name = _name,
-                showTutor = _ctx.showTutor,
                 maskUpper = _maskUpper,
             };
             _pm = new PlayerPm(playerPmCtx);

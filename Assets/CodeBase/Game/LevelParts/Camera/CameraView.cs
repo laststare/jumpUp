@@ -12,18 +12,17 @@ namespace CodeBase.Game.LevelParts.Camera
 
         public struct Ctx
         {
-            public ReactiveProperty<Transform> camTr;
             public IReadOnlyReactiveProperty<Transform> player;
             public ReactiveEvent<float> shake;
             public IReadOnlyReactiveEvent<bool> flyup;
             public ReactiveProperty<UnityEngine.Camera> camera;
             public ReactiveProperty<CinemachineVirtualCamera> vcam;
-            public ReactiveProperty<Transform> _bigTutorSphere;
+            public ReactiveProperty<Transform> _startTutorSphere;
         }
 
         private Ctx _ctx;
         [SerializeField]
-        private GameObject bigTutorSphere;
+        private GameObject startTutorSphere;
 
         [SerializeField]
         private CinemachineVirtualCamera vcam;
@@ -35,7 +34,7 @@ namespace CodeBase.Game.LevelParts.Camera
             _ctx.flyup.SubscribeWithSkip(FovChanger).AddTo(this);
             _ctx.camera.Value = GetComponent<UnityEngine.Camera>() ;
             _ctx.vcam.Value = vcam;
-            _ctx._bigTutorSphere.Value = bigTutorSphere.transform;
+            _ctx._startTutorSphere.Value = startTutorSphere.transform;
         }
 
         private void SetPlayer(Transform player)

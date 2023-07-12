@@ -9,39 +9,18 @@ namespace CodeBase.UI.Input
     {
         public struct Ctx
         {
-            public ReactiveTrigger _onClick;
+            public ReactiveTrigger OnClick;
         }
 
         private Ctx _ctx;
-        public void SetMain(Ctx Ctx)
+        public void SetMain(Ctx ctx)
         {
-            _ctx = Ctx;
-         //   Touching();   
+            _ctx = ctx;
         }
-
-        private async Task Touching()
-        {
-            while (gameObject.activeSelf)
-            {
-                if (UnityEngine.Input.touchCount > 0)
-                {
-                    Touch touch = UnityEngine.Input.GetTouch(0);
-                    switch (touch.phase)
-                    {
-                        case UnityEngine.TouchPhase.Began:
-                            _ctx._onClick.Notify();                          
-                            break;
-                        case UnityEngine.TouchPhase.Ended:
-                            break;
-                    }
-                }
-                await Task.Yield();
-            }
-        }
-
+        
         public void OnPointerDown(PointerEventData eventData)
         {
-            _ctx._onClick.Notify();
+            _ctx.OnClick.Notify();
         }
     }
 }

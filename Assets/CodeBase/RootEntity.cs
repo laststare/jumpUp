@@ -15,11 +15,10 @@ namespace CodeBase
         public struct Ctx
         {
             public PrefabsInfo prefabs;
-            public GameInfoView gameInfoView;
             public InputView inputview;
-            public Transform tutor;
             public DigitalRubyShared.FingersJoystickScript controll;
             public Transform blocksContainer;
+            public Transform uiCanvas;
         }
 
         private readonly Ctx _ctx;
@@ -27,42 +26,32 @@ namespace CodeBase
         private UIEntity _uIEntity;
         private IContent _contentLoader;
 
-        private readonly ReactiveProperty<GameState> _gameState;
+        private readonly ReactiveProperty<GameState> _gameState = new ReactiveProperty<GameState>();
         private readonly ReactiveProperty<int> _levelIndex;
         private readonly ReactiveProperty<int> _levelCounter;
-        private readonly ReactiveEvent<Vector2> _moveCoordinates;
-        private readonly ReactiveTrigger _start;
-        private readonly ReactiveTrigger _gameOver;
-        private readonly ReactiveTrigger _finish;
-        private readonly ReactiveProperty<Transform> _player;
-        private readonly ReactiveTrigger _onClick;
-        private readonly ReactiveTrigger _showTutor; 
-        private readonly ReactiveProperty<bool> _needBigTutor;
-        private readonly ReactiveProperty<string> _winnerName; 
-        private readonly ReactiveTrigger _startGame;
+        private readonly ReactiveEvent<Vector2> _moveCoordinates = new ReactiveEvent<Vector2>();
+        private readonly ReactiveTrigger _start =  new ReactiveTrigger();
+        private readonly ReactiveTrigger _gameOver = new ReactiveTrigger();
+        private readonly ReactiveTrigger _finish = new ReactiveTrigger();
+        private readonly ReactiveProperty<Transform> _player = new ReactiveProperty<Transform>();
+        private readonly ReactiveTrigger _onClick = new ReactiveTrigger();
+        private readonly ReactiveProperty<bool> _needStartTutor;
+        private readonly ReactiveProperty<string> _winnerName = new ReactiveProperty<string>();
+        private readonly ReactiveTrigger _startGame = new ReactiveTrigger();
+        private readonly ReactiveTrigger _countingIsOver = new ReactiveTrigger();
+        private readonly ReactiveProperty<int> _playersRacePlace = new ReactiveProperty<int>();
+        private readonly ReactiveProperty<GameObject> _endlessSignTutor = new ReactiveProperty<GameObject>();
 
-        private readonly ReactiveProperty<int> _playersRacePlace;
 
 
         public RootEntity(Ctx ctx)
         {
             _ctx = ctx;
-            _moveCoordinates = new ReactiveEvent<Vector2>();
-            _start =  new ReactiveTrigger();
-            _gameOver = new ReactiveTrigger();
-            _finish = new ReactiveTrigger();
-            _gameState = new ReactiveProperty<GameState>();
             var level = PlayerPrefs.GetInt("level");
             _levelIndex = new ReactiveProperty<int>(level);
             var levelCounter = PlayerPrefs.GetInt("levelCounter");
             _levelCounter = new ReactiveProperty<int>(levelCounter);
-            _player = new ReactiveProperty<Transform>();
-            _onClick = new ReactiveTrigger();
-            _showTutor = new ReactiveTrigger();
-            _winnerName = new ReactiveProperty<string>();
-            _needBigTutor = new ReactiveProperty<bool>(PlayerPrefs.GetInt("bigTutor") == 0);
-            _playersRacePlace = new ReactiveProperty<int>();
-            _startGame = new ReactiveTrigger();
+            _needStartTutor = new ReactiveProperty<bool>(PlayerPrefs.GetInt("startTutor") == 0);
             Init();
         }
 
@@ -97,14 +86,15 @@ namespace CodeBase
                 moveCoor = _moveCoordinates,
                 player = _player,
                 _onClick = _onClick,
-                tutor = _ctx.tutor,
+                endlessSignTutor = _endlessSignTutor,
                 controll = _ctx.controll,
                 blocksContainer = _ctx.blocksContainer,
-                showTutor = _showTutor,
-                needBigTutor = _needBigTutor,
+                needStartTutor = _needStartTutor,
                 winnerName = _winnerName,
                 startGame = _startGame,
-                playersRacePlace = _playersRacePlace
+                playersRacePlace = _playersRacePlace,
+                uiCanvas = _ctx.uiCanvas,
+                countingIsOver = _countingIsOver
             };
             _gameEntity = new GameEntity(gameEntityCtx);
             AddUnsafe(_gameEntity);
@@ -115,17 +105,14 @@ namespace CodeBase
             var uiEntityCtx = new UIEntity.Ctx()
             {
                 gameState = _gameState,
-                _levelIndex = _levelIndex,
                 inputview = _ctx.inputview,
                 moveCoor = _moveCoordinates,
                 _onClick = _onClick,
-                gameInfoView = _ctx.gameInfoView,
                 controll = _ctx.controll,
-                showTutor = _showTutor,
-                winnerName = _winnerName,
-                startGame = _startGame,
-                levelCounter = _levelCounter,
-                playersRacePlace = _playersRacePlace
+                content = _contentLoader,
+                uiCanvas = _ctx.uiCanvas,
+                countingIsOver = _countingIsOver,
+                endlessSignTutor = _endlessSignTutor
             };
             _uIEntity = new UIEntity(uiEntityCtx);
             AddUnsafe(_uIEntity);

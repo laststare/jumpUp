@@ -17,27 +17,30 @@ namespace CodeBase.Game.LevelParts.Camera
             public ReactiveEvent<float> shake;
             public ReactiveEvent<bool> flyup;
             public ReactiveProperty<UnityEngine.Camera> camera;
-            public ReactiveProperty<bool> needBigTutor;
+            public ReactiveProperty<bool> needStartTutor;
+            public Transform uiCanvas;
         }
 
         private Ctx  _ctx;
         private readonly CameraView _cameraview;
         private CameraPm _pm;
         private readonly ReactiveProperty<CinemachineVirtualCamera> _vcam;
-        private readonly ReactiveProperty<Transform> _bigTutorSphere;
+        private readonly ReactiveProperty<Transform> _startTutorSphere;
         public CameraEntity(Ctx ctx)
         {
             _ctx = ctx;
             _cameraview = Object.Instantiate(ctx.content.GetCamera().GetComponent<CameraView>());
             _vcam = new ReactiveProperty<CinemachineVirtualCamera>();
-            _bigTutorSphere = new ReactiveProperty<Transform>();
+            _startTutorSphere = new ReactiveProperty<Transform>();
             var cameraPmCtx = new CameraPm.Ctx()
             {
                 player = _ctx.player,
                 vcam = _vcam,
                 gameState = _ctx.gameState,
-                _bigTutorSphere = _bigTutorSphere,
-                needBigTutor = _ctx.needBigTutor
+                _startTutorSphere = _startTutorSphere,
+                needStartTutor = _ctx.needStartTutor,
+                uiCanvas = _ctx.uiCanvas,
+                content = _ctx.content
             };
             _pm = new CameraPm(cameraPmCtx);
             AddUnsafe(_pm);
@@ -49,7 +52,7 @@ namespace CodeBase.Game.LevelParts.Camera
                 flyup = _ctx.flyup,
                 camera = _ctx.camera,
                 vcam = _vcam,
-                _bigTutorSphere = _bigTutorSphere
+                _startTutorSphere = _startTutorSphere
             });
 
         }

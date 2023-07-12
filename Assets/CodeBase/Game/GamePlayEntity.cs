@@ -19,13 +19,13 @@ namespace CodeBase.Game {
             public IReactiveProperty<int> levelIndex;
             public ReactiveEvent<Vector2> moveCoor;
             public ReactiveProperty<Transform> player;
-            public Transform tutor;
+            public ReactiveProperty<GameObject> endlessSignTutor;
             public Transform blocksContainer;
-            public ReactiveTrigger showTutor;
-            public ReactiveProperty<bool> needBigTutor;
+            public ReactiveProperty<bool> needStartTutor;
             public ReactiveProperty<string> winnerName;
             public ReactiveTrigger startGame;
             public ReactiveProperty<int> playersRacePlace;
+            public Transform uiCanvas;
         }
 
         private PlayerEntity _playerEntity;
@@ -91,7 +91,7 @@ namespace CodeBase.Game {
                 player = _ctx.player,
                 gameState = _ctx.gameState,
                 Level = level,
-                tutor = _ctx.tutor,
+                endlessSignTutor = _ctx.endlessSignTutor,
                 floorPart = _floorPart,
                 roofPart = _roofPart,
                 shake = _shake,
@@ -99,7 +99,6 @@ namespace CodeBase.Game {
                 camera = _camera,
                 players = _players,
                 leader = _leader,
-                showTutor = _ctx.showTutor,
                 startGame = _ctx.startGame,
             };
             _playerEntity = new PlayerEntity(playerEntityCtx);
@@ -116,7 +115,8 @@ namespace CodeBase.Game {
                 shake = _shake,
                 flyup = _flyUp,
                 camera = _camera,
-                needBigTutor = _ctx.needBigTutor
+                needStartTutor = _ctx.needStartTutor,
+                uiCanvas = _ctx.uiCanvas
             };
             _cameraEntity = new CameraEntity(cameraEntityCtx);
             AddUnsafe(_cameraEntity);

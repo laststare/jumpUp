@@ -12,22 +12,19 @@ namespace CodeBase.UI
     {
         public struct Ctx
         {
+            public Transform uiCanvas;
             public IContent content;
             public ReactiveProperty<GameState> gameState;
-            public GameInfoView gameInfoView;
-            public ReactiveProperty<int> _levelIndex;
             public InputView inputview;
             public ReactiveEvent<Vector2> moveCoor;
             public ReactiveTrigger _onClick;
             public FingersJoystickScript controll;
-            public ReactiveTrigger showTutor;
-            public ReactiveProperty<string> winnerName;
-            public ReactiveTrigger startGame;
-            public ReactiveProperty<int> levelCounter;
-            public ReactiveProperty<int> playersRacePlace;
+            public ReactiveTrigger countingIsOver;
+            public ReactiveProperty<GameObject> endlessSignTutor;
         }
 
         private Ctx _ctx;
+        private UIpm _pm;
 
         public UIEntity(Ctx ctx)
         {
@@ -43,22 +40,25 @@ namespace CodeBase.UI
 
             var inputCtx = new InputView.Ctx()
             {      
-                _onClick = _ctx._onClick,
+                OnClick = _ctx._onClick,
             };
             _ctx.inputview.SetMain(inputCtx);
+            
+            CreatePm();
+        }
 
-            var gameInfoCtx = new GameInfoView.Ctx()
+        private void CreatePm()
+        {
+            var uiPmCtx = new UIpm.Ctx()
             {
+                content = _ctx.content,
+                uiCanvas = _ctx.uiCanvas,
                 gameState = _ctx.gameState,
-                _levelIndex = _ctx._levelIndex,
-                showTutor = _ctx.showTutor,
-                winnerName = _ctx.winnerName,
-                startGame = _ctx.startGame,
-                levelCounter = _ctx.levelCounter,
-                playersRacePlace = _ctx.playersRacePlace
+                countingIsOver = _ctx.countingIsOver,
+                endlessSignTutor = _ctx.endlessSignTutor
             };
-            _ctx.gameInfoView.SetMain(gameInfoCtx);
-
+            _pm = new UIpm(uiPmCtx);
+            AddUnsafe(_pm);
         }
     }
 }

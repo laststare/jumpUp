@@ -7,9 +7,8 @@
         PLAY,
         FINISH,
         GAMEOVER,
-        TUTOR,
         COUNTER,
-        BIGTUTOR
+        STARTTUTOR
     }
     
 

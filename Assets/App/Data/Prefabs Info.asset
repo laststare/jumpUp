@@ -36,3 +36,13 @@ MonoBehaviour:
   - {fileID: 8397982686299258834, guid: 8e153f46e272e6440a31b77eed19fde3, type: 3}
   playersName: {fileID: 6088500523820588620, guid: 0dd86f351bc349e409c730a4eb91daae,
     type: 3}
+  startTutorText: {fileID: 3793143623827856708, guid: 9e95fbfd9549568428da6a9cbb6117cd,
+    type: 3}
+  startCounter: {fileID: -4003025479199590173, guid: 6026b62fa78f3b4468dc083ac6a31f8c,
+    type: 3}
+  gameInfoView: {fileID: 5035392654957974138, guid: b9cd21a83cd4b6c4eaa46f02624ff9b7,
+    type: 3}
+  endlessSignTutor: {fileID: 359116397553151202, guid: 6872e4212178414498fe4deea8196fbf,
+    type: 3}
+  winTextView: {fileID: 9213895878834877617, guid: bfebbadca5a2f724aabcb91c48247eea,
+    type: 3}
