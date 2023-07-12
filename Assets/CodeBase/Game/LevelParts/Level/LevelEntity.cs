@@ -15,13 +15,11 @@ namespace CodeBase.Game.LevelParts.Level
             public IReactiveProperty<GameState> gameState;  
             public Level Level;
             public ReactiveProperty<Transform> player;
-            public ReactiveEvent<Vector2> moveCoor;
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
-            public Transform otherTransform;
+            public Transform blocksContainer;
             public ReactiveTrigger destroy;
             public IReactiveProperty<int> levelIndex;
-            public Transform otherCanvas;
             public ReactiveProperty<UnityEngine.Camera> camera;
             public ReactiveProperty<List<Transform>> players;
             public ReactiveEvent<Transform> leader;
@@ -44,10 +42,9 @@ namespace CodeBase.Game.LevelParts.Level
                 player = _ctx.player,
                 floorPart = _ctx.floorPart,
                 roofPart = _ctx.roofPart,
-                otherTransform = _ctx.otherTransform,
+                blocksContainer = _ctx.blocksContainer,
                 destroy = _ctx.destroy,
                 levelIndex = _ctx.levelIndex,
-                otherCanvas = _ctx.otherCanvas,
                 camera = _ctx.camera,
                 players = _ctx.players,
                 leader = _ctx.leader,

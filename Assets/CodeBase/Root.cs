@@ -17,8 +17,7 @@ namespace CodeBase
             public InputView inputview;
             public Transform tutor;
             public DigitalRubyShared.FingersJoystickScript controll;
-            public Transform otherTransform;
-            public Transform otherCanvas;
+            public Transform blocksContainer;
         }
 
         private readonly Ctx  _ctx;
@@ -51,8 +50,7 @@ namespace CodeBase
                 inputview = _ctx.inputview,
                 tutor = _ctx.tutor,
                 controll = _ctx.controll,
-                otherTransform = _ctx.otherTransform,
-                otherCanvas = _ctx.otherCanvas
+                blocksContainer = _ctx.blocksContainer,
             };
             _rootEntity = new RootEntity(ctx);
             AddUnsafe(_rootEntity);

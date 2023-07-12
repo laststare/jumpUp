@@ -12,7 +12,7 @@ namespace CodeBase.Game.LevelParts.Jumper
         public struct Ctx
         {
             public LevelContainer.Jumper jumper;
-            public Transform otherTransform;
+            public Transform blocksContainer;
             public GameObject emptyCell;
         }
 
@@ -59,7 +59,7 @@ namespace CodeBase.Game.LevelParts.Jumper
                         break;
                     case JumperType.oldCell:
                         _jump.DoJump(type);
-                        Instantiate(_ctx.emptyCell, transform.position, Quaternion.identity, _ctx.otherTransform);
+                        Instantiate(_ctx.emptyCell, transform.position, Quaternion.identity, _ctx.blocksContainer);
                         gameObject.SetActive(false);
                         break;
                 }

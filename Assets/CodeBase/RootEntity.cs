@@ -19,8 +19,7 @@ namespace CodeBase
             public InputView inputview;
             public Transform tutor;
             public DigitalRubyShared.FingersJoystickScript controll;
-            public Transform otherTransform;
-            public Transform otherCanvas;
+            public Transform blocksContainer;
         }
 
         private readonly Ctx _ctx;
@@ -104,8 +103,7 @@ namespace CodeBase
                 _onClick = _onClick,
                 tutor = _ctx.tutor,
                 controll = _ctx.controll,
-                otherTransform = _ctx.otherTransform,
-                otherCanvas = _ctx.otherCanvas,
+                blocksContainer = _ctx.blocksContainer,
                 showTutor = _showTutor,
                 needBigTutor = _needBigTutor,
                 winnerName = _winnerName,

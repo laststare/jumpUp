@@ -22,8 +22,7 @@ namespace CodeBase.Game
             public ReactiveTrigger _onClick;
             public Transform tutor;
             public DigitalRubyShared.FingersJoystickScript controll;
-            public Transform otherTransform;
-            public Transform otherCanvas;
+            public Transform blocksContainer;
             public ReactiveTrigger showTutor;
             public ReactiveProperty<bool> needBigTutor;
             public ReactiveProperty<string> winnerName;
@@ -105,8 +104,7 @@ namespace CodeBase.Game
                 moveCoor = _ctx.moveCoor,
                 player = _ctx.player,
                 tutor = _ctx.tutor,
-                otherTransform = _ctx.otherTransform,
-                otherCanvas = _ctx.otherCanvas,
+                blocksContainer = _ctx.blocksContainer,
                 showTutor = _ctx.showTutor,
                 needBigTutor = _ctx.needBigTutor,
                 winnerName = _ctx.winnerName,

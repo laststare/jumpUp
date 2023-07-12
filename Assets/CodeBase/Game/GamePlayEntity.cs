@@ -20,8 +20,7 @@ namespace CodeBase.Game {
             public ReactiveEvent<Vector2> moveCoor;
             public ReactiveProperty<Transform> player;
             public Transform tutor;
-            public Transform otherTransform;
-            public Transform otherCanvas;
+            public Transform blocksContainer;
             public ReactiveTrigger showTutor;
             public ReactiveProperty<bool> needBigTutor;
             public ReactiveProperty<string> winnerName;
@@ -70,13 +69,11 @@ namespace CodeBase.Game {
                 gameState = _ctx.gameState,
                 Level = level,
                 player = _ctx.player,
-                moveCoor = _ctx.moveCoor,
                 floorPart = _floorPart,
                 roofPart = _roofPart,
-                otherTransform = _ctx.otherTransform,
+                blocksContainer = _ctx.blocksContainer,
                 destroy = _ctx.destroy,
                 levelIndex = _ctx.levelIndex,
-                otherCanvas = _ctx.otherCanvas,
                 camera = _camera,
                 players = _players,
                 leader = _leader,

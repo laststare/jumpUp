@@ -1,7 +1,6 @@
 ﻿using CodeBase.Content;
 using CodeBase.UI;
 using CodeBase.UI.Input;
-using JumpUp.Content;
 using MoreMountains.NiceVibrations;
 using UnityEngine;
 
@@ -14,8 +13,7 @@ namespace CodeBase
         [SerializeField] protected InputView inputview;
         [SerializeField] protected Transform tutor;
         [SerializeField] protected DigitalRubyShared.FingersJoystickScript controll;
-        [SerializeField] protected Transform otherTransform;
-        [SerializeField] protected Transform otherCanvas;
+        [SerializeField] protected Transform blocksContainer;
 
 
         private Root _root;
@@ -33,8 +31,7 @@ namespace CodeBase
                 inputview = inputview,
                 tutor = tutor,
                 controll = controll,
-                otherTransform = otherTransform,
-                otherCanvas = otherCanvas
+                blocksContainer = blocksContainer,
             }) ;
         }
         

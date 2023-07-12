@@ -19,7 +19,6 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
             public IReactiveProperty<int> levelIndex;
-            public Transform otherCanvas;
             public ReactiveProperty<UnityEngine.Camera> camera;
             public string ioName;
             public Material skinMat;

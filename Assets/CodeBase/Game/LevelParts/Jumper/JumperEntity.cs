@@ -12,7 +12,7 @@ namespace CodeBase.Game.LevelParts.Jumper
             public LevelContainer.Jumper jumper;
             public JumperView view;
             public Vector3 position;
-            public Transform otherTransform;
+            public Transform blocksContainer;
             public GameObject emptyCell;
         }
 
@@ -37,7 +37,7 @@ namespace CodeBase.Game.LevelParts.Jumper
             _view.SetMain(new JumperView.Ctx
             {
                 jumper = _ctx.jumper,
-                otherTransform = _ctx.otherTransform,
+                blocksContainer = _ctx.blocksContainer,
                 emptyCell = _ctx.emptyCell
             });
         }

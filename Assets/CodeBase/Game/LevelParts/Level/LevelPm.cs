@@ -24,10 +24,9 @@ namespace CodeBase.Game.LevelParts.Level
             public ReactiveProperty<Transform> player;
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
-            public Transform otherTransform;
+            public Transform blocksContainer;
             public ReactiveTrigger destroy;
             public IReactiveProperty<int> levelIndex;
-            public Transform otherCanvas;
             public ReactiveProperty<UnityEngine.Camera> camera;
             public ReactiveEvent<Transform> leader;
             public ReactiveProperty<List<Transform>> players;
@@ -63,7 +62,7 @@ namespace CodeBase.Game.LevelParts.Level
                      {
                          jumper = jumper,
                          view = _ctx.content.GetJumper(jumper.type),
-                         otherTransform = _ctx.otherTransform,
+                         blocksContainer = _ctx.blocksContainer,
                          emptyCell = _ctx.content.GetEmptyCell().gameObject
                      }).Select(jumperEntityCtx => new JumperEntity(jumperEntityCtx)))
             {
@@ -110,7 +109,6 @@ namespace CodeBase.Game.LevelParts.Level
                     floorPart = _ctx.floorPart,
                     levelIndex = _ctx.levelIndex,
                     _nameView = _ctx.content.GetPlayersName(),
-                    otherCanvas = _ctx.otherCanvas,
                     camera = _ctx.camera,
                     ioName = _ctx.content.GetIoName(),
                     skinMat = _ctx.content.GetManMaterial(),
@@ -126,7 +124,7 @@ namespace CodeBase.Game.LevelParts.Level
         private void MakeFloorCells(LevelContainer.Floor floor, int size, Vector3 startPoint, bool last)
         {
             var point = startPoint;
-            Object.Instantiate(_ctx.content.GetNavFloor(floor.FloorType), point, Quaternion.identity, _ctx.otherTransform);
+            Object.Instantiate(_ctx.content.GetNavFloor(floor.FloorType), point, Quaternion.identity, _ctx.blocksContainer);
             for (var i = 0; i < size; i++)
             {
                 for (var j = 0; j < size; j++)
@@ -134,12 +132,12 @@ namespace CodeBase.Game.LevelParts.Level
                     var cell = _ctx.Level._container.GetCellInfo(floor, j, i, out int index);
                     if (cell.type == CellType.simple)
                     {
-                       var c=  Object.Instantiate(_ctx.content.GetCell(floor.color), point, Quaternion.identity, _ctx.otherTransform);
+                       var c=  Object.Instantiate(_ctx.content.GetCell(floor.color), point, Quaternion.identity, _ctx.blocksContainer);
                         if (last) c.layer = 11;
                     }
 
                     if (cell.type == CellType.empty)
-                        Object.Instantiate(_ctx.content.GetEmptyCell(), point, Quaternion.identity, _ctx.otherTransform);
+                        Object.Instantiate(_ctx.content.GetEmptyCell(), point, Quaternion.identity, _ctx.blocksContainer);
                     if (cell.type == CellType.jumper)
                     {
                         var jumperEntityCtx = new JumperEntity.Ctx()
@@ -216,7 +214,7 @@ namespace CodeBase.Game.LevelParts.Level
             if (!await Waiter(125)) return;
             try
             {
-                Object.Instantiate(_ctx.content.GetEmptyCell(), o.transform.position, Quaternion.identity, _ctx.otherTransform);
+                Object.Instantiate(_ctx.content.GetEmptyCell(), o.transform.position, Quaternion.identity, _ctx.blocksContainer);
                 Object.Destroy(o.transform.parent.gameObject);
             }
             catch { };
@@ -247,7 +245,7 @@ namespace CodeBase.Game.LevelParts.Level
 
         private void DestCells()
         {
-            foreach (Transform child in _ctx.otherTransform)
+            foreach (Transform child in _ctx.blocksContainer)
             {
                 Object.Destroy(child.gameObject);
             }
