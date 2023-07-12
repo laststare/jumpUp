@@ -4,6 +4,7 @@ using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
 using CodeBase.Game.LevelParts.Player;
 using CodeBase.UI;
+using CodeBase.UI.Input;
 using UnityEngine;
 
 namespace CodeBase.Content
@@ -25,5 +26,6 @@ namespace CodeBase.Content
         public GameInfoView gameInfoView;
         public GameObject endlessSignTutor;
         public WinTextView winTextView;
+        public ClickInputView clickInputView;
     }
 }

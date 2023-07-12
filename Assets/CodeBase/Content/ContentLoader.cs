@@ -2,6 +2,7 @@
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
 using CodeBase.UI;
+using CodeBase.UI.Input;
 using JumpUp.External;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -30,6 +31,7 @@ namespace CodeBase.Content
         StartCounterView GetStartCounterView();
         GameObject GetEndlessSignTutor();
         WinTextView GetWinTextView();
+        ClickInputView GetClickInputView();
     }
 
     public class ContentLoader : BaseDisposable, IContent
@@ -148,6 +150,7 @@ namespace CodeBase.Content
         public StartCounterView GetStartCounterView() => _prefabs.startCounter;
         public GameObject GetEndlessSignTutor() => _prefabs.endlessSignTutor;
         public WinTextView GetWinTextView() => _prefabs.winTextView;
+        public ClickInputView GetClickInputView() => _prefabs.clickInputView;
 
         public void ResetLevel()
         {

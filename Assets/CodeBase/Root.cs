@@ -10,7 +10,6 @@ namespace CodeBase
         public struct Ctx
         {
             public PrefabsInfo prefabs;
-            public InputView inputview;
             public DigitalRubyShared.FingersJoystickScript controll;
             public Transform blocksContainer;
             public Transform uiCanvas;
@@ -42,7 +41,6 @@ namespace CodeBase
             var ctx = new RootEntity.Ctx
             {
                 prefabs = _ctx.prefabs,
-                inputview = _ctx.inputview,
                 controll = _ctx.controll,
                 blocksContainer = _ctx.blocksContainer,
                 uiCanvas = _ctx.uiCanvas

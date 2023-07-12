@@ -1,4 +1,5 @@
 ﻿using CodeBase.Content;
+using CodeBase.Control;
 using CodeBase.Game;
 using CodeBase.UI;
 using CodeBase.UI.Input;
@@ -13,7 +14,6 @@ namespace CodeBase
         public struct Ctx
         {
             public PrefabsInfo prefabs;
-            public InputView inputview;
             public DigitalRubyShared.FingersJoystickScript controll;
             public Transform blocksContainer;
             public Transform uiCanvas;
@@ -22,6 +22,7 @@ namespace CodeBase
         private readonly Ctx _ctx;
         private GameEntity _gameEntity;
         private UIEntity _uIEntity;
+        private ControlEntity _controlEntity;
         private IContent _contentLoader;
 
         private readonly ReactiveProperty<GameState> _gameState = new ReactiveProperty<GameState>();
@@ -39,8 +40,7 @@ namespace CodeBase
         private readonly ReactiveTrigger _countingIsOver = new ReactiveTrigger();
         private readonly ReactiveProperty<int> _playersRacePlace = new ReactiveProperty<int>();
         private readonly ReactiveProperty<GameObject> _endlessSignTutor = new ReactiveProperty<GameObject>();
-
-
+        
 
         public RootEntity(Ctx ctx)
         {
@@ -56,6 +56,7 @@ namespace CodeBase
         private void Init()
         {
             CreateContentLoader();
+            CreateControlEntity();
             CreateUIEntity();
             CreateGameEntity();
             _gameOver.Notify();  
@@ -69,6 +70,21 @@ namespace CodeBase
             };
             _contentLoader = new ContentLoader(contentLoaderCtx);
             AddUnsafe(_contentLoader);
+        }
+        
+        private void CreateControlEntity()
+        {
+            var controlEntityCtx = new ControlEntity.Ctx()
+            {
+                moveCoordinates = _moveCoordinates,
+                onClick = _onClick,
+                controll = _ctx.controll,
+                gameState = _gameState,
+                uiCanvas = _ctx.uiCanvas,
+                content = _contentLoader
+            };
+            _controlEntity = new ControlEntity(controlEntityCtx);
+            AddUnsafe(_controlEntity);
         }
 
         private void CreateGameEntity()
@@ -102,10 +118,6 @@ namespace CodeBase
             var uiEntityCtx = new UIEntity.Ctx()
             {
                 gameState = _gameState,
-                inputview = _ctx.inputview,
-                moveCoordinates = _moveCoordinates,
-                _onClick = _onClick,
-                controll = _ctx.controll,
                 content = _contentLoader,
                 uiCanvas = _ctx.uiCanvas,
                 countingIsOver = _countingIsOver,
@@ -114,6 +126,6 @@ namespace CodeBase
             _uIEntity = new UIEntity(uiEntityCtx);
             AddUnsafe(_uIEntity);
         }
-        
+
     }
 }

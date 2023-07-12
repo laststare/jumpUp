@@ -14,10 +14,6 @@ namespace CodeBase.UI
             public Transform uiCanvas;
             public IContent content;
             public ReactiveProperty<GameState> gameState;
-            public InputView inputview;
-            public ReactiveEvent<Vector2> moveCoordinates;
-            public ReactiveTrigger _onClick;
-            public FingersJoystickScript controll;
             public ReactiveTrigger countingIsOver;
             public ReactiveProperty<GameObject> endlessSignTutor;
         }
@@ -29,20 +25,6 @@ namespace CodeBase.UI
         {
             _ctx = ctx;
 
-            var fingerCtx = new FingersJoystickScript.Ctx()
-            {
-                moveCoordinates = _ctx.moveCoordinates,
-                gameState = _ctx.gameState
-            };
-
-            _ctx.controll.SetMain(fingerCtx);
-
-            var inputCtx = new InputView.Ctx()
-            {      
-                OnClick = _ctx._onClick,
-            };
-            _ctx.inputview.SetMain(inputCtx);
-            
             CreatePm();
         }
 

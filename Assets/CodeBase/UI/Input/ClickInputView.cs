@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 namespace CodeBase.UI.Input
 {
-    public class InputView : MonoBehaviour, IPointerDownHandler
+    public class ClickInputView : MonoBehaviour, IPointerDownHandler
     {
         public struct Ctx
         {
-            public ReactiveTrigger OnClick;
+            public ReactiveTrigger onClick;
         }
 
         private Ctx _ctx;
@@ -20,7 +20,7 @@ namespace CodeBase.UI.Input
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            _ctx.OnClick.Notify();
+            _ctx.onClick.Notify();
         }
     }
 }

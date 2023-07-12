@@ -46,3 +46,5 @@ MonoBehaviour:
     type: 3}
   winTextView: {fileID: 9213895878834877617, guid: bfebbadca5a2f724aabcb91c48247eea,
     type: 3}
+  clickInputView: {fileID: 5984756671016370737, guid: a942b9abece6bb647b46f4b3f966ca8d,
+    type: 3}

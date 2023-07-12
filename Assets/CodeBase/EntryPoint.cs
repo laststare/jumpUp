@@ -9,7 +9,6 @@ namespace CodeBase
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField] protected PrefabsInfo prefabs;
-        [SerializeField] protected InputView inputview;
         [SerializeField] protected DigitalRubyShared.FingersJoystickScript controll;
         [SerializeField] protected Transform blocksContainer;
         [SerializeField] protected Transform uiCanvas;
@@ -26,7 +25,6 @@ namespace CodeBase
             _root = Root.CreateRoot(new Root.Ctx
             {
                 prefabs = prefabs,
-                inputview = inputview,
                 controll = controll,
                 blocksContainer = blocksContainer,
                 uiCanvas = uiCanvas
