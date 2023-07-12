@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeBase.Game.interfaces;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using JumpUp.External;
 using UniRx;
@@ -118,9 +119,9 @@ namespace CodeBase.Game.LevelParts.Player
             grounded.Value = myCharacterController.isGrounded;
         }
 
-        private void ControlAnimation(Vector3 _moveDirection)
+        private void ControlAnimation(Vector3 moveDirection)
         {
-            float m = _moveDirection.x == 0 && _moveDirection.z == 0 ? 0 : _haveBat? 2 :1;
+            float m = moveDirection.x == 0 && moveDirection.z == 0 ? 0 : _haveBat? 2 :1;
             anim.SetFloat(Move, m);
             anim.SetBool(Grounded, myCharacterController.isGrounded);
             float f = myCharacterController.velocity.y > 2 ? 0 : 1;
@@ -180,12 +181,10 @@ namespace CodeBase.Game.LevelParts.Player
 
         private void CheckGround(bool isGrounded)
         {
-            if (isGrounded && waitingShake)
-            {
-                _ctx.shake.Notify(0.5f);
-                waitingShake = false;
-                _ctx.flyup.Notify(false);
-            }
+            if (!isGrounded || !waitingShake) return;
+            _ctx.shake.Notify(0.5f);
+            waitingShake = false;
+            _ctx.flyup.Notify(false);
         }
 
         private async void HitAnimPlay()
@@ -194,7 +193,7 @@ namespace CodeBase.Game.LevelParts.Player
             _batCoolDown = true;
             anim.SetTrigger(Hit);
             PlayBatFx();
-            await Task.Delay(500);
+            await UniTask.Delay(500);
             BatActivator(false);
             _batCoolDown = false;
             _haveBat = false;
@@ -212,7 +211,7 @@ namespace CodeBase.Game.LevelParts.Player
 
         private async void PlayBatFx()
         {
-            await Task.Delay(50);
+            await UniTask.Delay(50);
             batFx.Play();
         }
     }

@@ -5,6 +5,7 @@ using CodeBase.Content;
 using CodeBase.Game.LevelParts.Finish;
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using JumpUp.Content;
 using JumpUp.Data;
@@ -108,7 +109,6 @@ namespace CodeBase.Game.LevelParts.Level
                     roofPart = _ctx.roofPart,
                     floorPart = _ctx.floorPart,
                     levelIndex = _ctx.levelIndex,
-                    _nameView = _ctx.content.GetPlayersName(),
                     camera = _ctx.camera,
                     ioName = _ctx.content.GetIoName(),
                     skinMat = _ctx.content.GetManMaterial(),
@@ -161,18 +161,17 @@ namespace CodeBase.Game.LevelParts.Level
         {
             var allLod = GameObject.FindObjectsOfType<LODGroup>();
             allLod.ToList().ForEach(x => x.enabled = state);
-            
         }
 
         private async void ShowIO()
         {
-            await Task.Delay(100);
-            var pl_count = _ctx.players.Value.Count+1;
-            var interval = 3000 / pl_count;
+            await UniTask.Delay(100);
+            var plCount = _ctx.players.Value.Count+1;
+            var interval = 3000 / plCount;
             var i = 0;
-            while (i < pl_count-1)
+            while (i < plCount-1)
             {
-                await Task.Delay(interval);
+                await UniTask.Delay(interval);
                 var person = _ctx.players.Value[i];
                 if (person != _ctx.player.Value) person.gameObject.SetActive(true);
                 i++;
@@ -224,7 +223,7 @@ namespace CodeBase.Game.LevelParts.Level
         {
             try
             {
-                await Task.Delay(time);
+                await UniTask.Delay(time);
                 return true;
             }
             catch
@@ -256,7 +255,7 @@ namespace CodeBase.Game.LevelParts.Level
             var leaders = new List<Leader>();
             while (_isAlive)
             {
-                foreach (Transform p in _ctx.players.Value)
+                foreach (var p in _ctx.players.Value)
                 {
                     var d = Vector3.Distance(p.position, _ctx.Level.finishPosiiton);
                     leaders.Add(new Leader(p, d));

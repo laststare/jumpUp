@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CodeBase.Game.interfaces;
+using Cysharp.Threading.Tasks;
 using JumpUp.External;
 using UnityEngine;
 
@@ -22,12 +23,10 @@ namespace CodeBase.Game.LevelParts.Player
         private async void OnTriggerEnter(Collider other)
         {
             var target = other.GetComponent<IBatTarget>();
-            if (target != null )
-            {
-                _ctx.hit.Notify();
-                await Task.Delay(200);
-                target.HitByBat(transform);
-            }
+            if (target == null) return;
+            _ctx.hit.Notify();
+            await UniTask.Delay(200);
+            target.HitByBat(transform);
         }
 
 

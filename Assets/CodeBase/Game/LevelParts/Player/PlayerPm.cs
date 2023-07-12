@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using JumpUp.Content;
 using JumpUp.External;
@@ -176,7 +177,7 @@ namespace CodeBase.Game.LevelParts.Player
 
         private async void SeePlayer()
         {
-            await Task.Delay(1500);
+            await UniTask.Delay(1500);
             _playerTr.gameObject.SetActive(true);
             AddUnsafe(_ctx.camera.Subscribe(x => GetCamera(x)));
         }

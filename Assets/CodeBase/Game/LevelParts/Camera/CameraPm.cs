@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using JumpUp.External;
 using UniRx;
@@ -33,16 +34,10 @@ namespace CodeBase.Game.LevelParts.Camera
             AddUnsafe(_ctx._bigTutorSphere.Subscribe(GetBigTutorSphere));
         }
 
-        private void GetBigTutorSphere(Transform bigTutorSphere)
-        {
-            _bigTutorSphere = bigTutorSphere;
-        }
-             
+        private void GetBigTutorSphere(Transform bigTutorSphere) => _bigTutorSphere = bigTutorSphere;
 
-        private void GetCamera(CinemachineVirtualCamera vcam)
-        {
-            _vcam = vcam;
-        }
+
+        private void GetCamera(CinemachineVirtualCamera vcam) => _vcam = vcam;
 
         private void SetPlayer(Transform playerTransform) => _player = playerTransform;
         
@@ -97,7 +92,7 @@ namespace CodeBase.Game.LevelParts.Camera
             _bigTutorSphere.gameObject.SetActive(true);
             _vcam.Follow = _bigTutorSphere;
             _vcam.LookAt = _bigTutorSphere;
-            await Task.Delay(8000);
+            await UniTask.Delay(8000);
             _vcam.Follow = _ctx.player.Value;
             _vcam.LookAt = _ctx.player.Value;
             GoCloser();

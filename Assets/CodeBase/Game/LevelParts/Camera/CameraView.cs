@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -46,7 +47,7 @@ namespace CodeBase.Game.LevelParts.Camera
         private async void Shake(float intensity)
         {
             vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = intensity;
-            await Task.Delay(250);
+            await UniTask.Delay(250);
             vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0;
         }
 

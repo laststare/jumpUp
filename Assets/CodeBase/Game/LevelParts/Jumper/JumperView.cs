@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CodeBase.Content;
 using CodeBase.Game.interfaces;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using MoreMountains.NiceVibrations;
 using UnityEngine;
@@ -18,13 +19,16 @@ namespace CodeBase.Game.LevelParts.Jumper
 
         private Ctx _ctx;
         public JumperType type;
-        private Animator anim;
+        private Animator _anim;
         [SerializeField]
         private GameObject puffFx;
+
+        private static readonly int Jump = Animator.StringToHash("jump");
+
         public void SetMain(Ctx ctx)
         {
             _ctx = ctx;
-            if (type == JumperType.medium) anim = GetComponent<Animator>();
+            if (type == JumperType.medium) _anim = GetComponent<Animator>();
             else transform.position = _ctx.jumper.position;
         }
 
@@ -33,53 +37,43 @@ namespace CodeBase.Game.LevelParts.Jumper
 
         public void Entering(Collider other)
         {
-            var _jump = other.GetComponent<IJumper>();
-            if (_jump != null)
+            if (other.GetComponent<IJumper>() is not { } jump) return;
+            switch (type)
             {
-                switch (type)
-                {
-                    case JumperType.medium:
-                        _jump.DoJump(type);
-                        anim.SetTrigger("jump");
-                        SetFX();
-                        break;
-                    case JumperType.rocket:
-                        _jump.DoJump(type);
+                case JumperType.medium:
+                    jump.DoJump(type);
+                    _anim.SetTrigger(Jump);
+                    SetFX();
+                    break;
+                case JumperType.rocket:
+                    jump.DoJump(type);
+                    MMVibrationManager.Haptic(HapticTypes.MediumImpact);
+                    gameObject.SetActive(false);
+                    break;
+                case JumperType.bat:
+                    var batHolder = other.GetComponent<IBatHolder>();
+                    if (batHolder != null)
+                    {
+                        batHolder.GetBat();
                         MMVibrationManager.Haptic(HapticTypes.MediumImpact);
                         gameObject.SetActive(false);
-                        break;
-                    case JumperType.bat:
-                        var batHolder = other.GetComponent<IBatHolder>();
-                        if (batHolder != null)
-                        {
-                            batHolder.GetBat();
-                            MMVibrationManager.Haptic(HapticTypes.MediumImpact);
-                            gameObject.SetActive(false);
-                        }
-                        break;
-                    case JumperType.oldCell:
-                        _jump.DoJump(type);
-                        Instantiate(_ctx.emptyCell, transform.position, Quaternion.identity, _ctx.blocksContainer);
-                        gameObject.SetActive(false);
-                        break;
-                }
-            }      
+                    }
+                    break;
+                case JumperType.oldCell:
+                    jump.DoJump(type);
+                    Instantiate(_ctx.emptyCell, transform.position, Quaternion.identity, _ctx.blocksContainer);
+                    gameObject.SetActive(false);
+                    break;
+            }
         }
 
         private async void SetFX()
         {
             puffFx.SetActive(true);
-            if (await Wait(1000))
-            {
-                try { puffFx.SetActive(false); }
-                catch { }
-            }
+            await UniTask.Delay(1000);
+            if(puffFx == null)return;
+            puffFx.SetActive(false);
         }
 
-        private async Task<bool> Wait(int time)
-        {
-            await Task.Delay(time);
-            return true;
-        }
     }
 }

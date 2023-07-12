@@ -14,7 +14,6 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         {
             public IReactiveProperty<GameState> gameState;
             public IoPLayerView view;
-            public PlayersNameView _nameView;
             public LevelContainer.IoPlayer _ioPlayer;
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
@@ -26,8 +25,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             public ReactiveEvent<Transform> leader;
             public ReactiveProperty<string> winnerName;
         }
-
-
+        
         private Ctx _ctx;
         private IoPLayerView _view;
         private PlayersNameView _nameView;

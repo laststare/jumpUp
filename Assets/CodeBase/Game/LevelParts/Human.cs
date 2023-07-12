@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace CodeBase.Game.LevelParts
@@ -18,7 +19,7 @@ namespace CodeBase.Game.LevelParts
         public float vSpeed, highJumpSpeed = 10.5f, smallJumpSpeed = 2f, rocketJumpSpeed = 11.2f, moveSpeed = 2f, gravity = 7, downJumpSpeed = 5f;
         [SerializeField]
         private GameObject trail;
-        public  CancellationTokenSource cancellation;
+        public  CancellationTokenSource Cancellation;
         public  SkinnedMeshRenderer skin;
         public  GameObject crown, bat;
 
@@ -32,7 +33,7 @@ namespace CodeBase.Game.LevelParts
         protected async void BoostSpeed(float speed, int time)
         {
             moveSpeed = speed;
-            await Task.Delay(time);
+            await UniTask.Delay(time);
             moveSpeed = 2f;
         }
 
@@ -41,13 +42,13 @@ namespace CodeBase.Game.LevelParts
             body = transform.GetChild(0);
             anim =  body.GetComponent<Animator>();
             myCharacterController = GetComponent<CharacterController>();
-            cancellation = new CancellationTokenSource();
+            Cancellation = new CancellationTokenSource();
         }
 
         protected async void ShowRocketPack()
         {
             rocketPack.gameObject.SetActive(true);
-            await Task.Delay(2500);
+            await UniTask.Delay(2500);
             try
             {
                 rocketPack.gameObject.SetActive(false);
@@ -58,7 +59,7 @@ namespace CodeBase.Game.LevelParts
         protected async void ActivateTrail(int time)
         {
             trail.SetActive(true);
-            await Task.Delay(time);
+            await UniTask.Delay(time);
             try
             {
                 trail.SetActive(false);
@@ -73,15 +74,15 @@ namespace CodeBase.Game.LevelParts
                 moveBlocker = true;
                 while (transform.position.y < y)
                 {
-                    await Task.Delay(1, cancellationToken: cancellation.Token);
+                    await UniTask.Delay(1, cancellationToken: Cancellation.Token);
                 }
                 if (autocorrect) OnUnblock();
                 moveBlocker = false;
             }
             catch
             {
-                cancellation?.Dispose();
-                cancellation = null;
+                Cancellation?.Dispose();
+                Cancellation = null;
             }
         }
 

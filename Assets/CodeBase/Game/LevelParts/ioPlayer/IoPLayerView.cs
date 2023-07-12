@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CodeBase.Game.interfaces;
 using CodeBase.Game.LevelParts.Jumper;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using JumpUp.External;
 using MoreMountains.NiceVibrations;
@@ -121,13 +122,13 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 
                     _grounded.Value = myCharacterController.isGrounded;
                     
-                    await Task.Delay(1, cancellationToken: cancellation.Token);
+                    await UniTask.Delay(1, cancellationToken: Cancellation.Token);
                 }
             }
             catch
             {
-                cancellation?.Dispose();
-                cancellation = null;
+                Cancellation?.Dispose();
+                Cancellation = null;
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using JumpUp;
+﻿using Cysharp.Threading.Tasks;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -115,22 +114,21 @@ namespace CodeBase.UI
         private async void ShowWaiting()
         {
             waitingText.SetActive(true);
-            await Task.Delay(3000);
+            await UniTask.Delay(3000);
             waitingText.SetActive(false);
             _ctx.showTutor.Notify();
             backUp.SetActive(true);
             counetrTx.text = "3";
-            await Task.Delay(1000);
+            await UniTask.Delay(1000);
             counetrTx.text = "2";
-            await Task.Delay(1000);
+            await UniTask.Delay(1000);
             counetrTx.text = "1";
-            await Task.Delay(1000);
+            await UniTask.Delay(1000);
             counetrTx.text = "GO!";
             _ctx.gameState.Value = GameState.PLAY;
-            await Task.Delay(1000);
+            await UniTask.Delay(1000);
             counetrTx.text = "";
             backUp.SetActive(false);
-
         }
 
         private string NumConverter(int n)
@@ -143,7 +141,6 @@ namespace CodeBase.UI
                 _ => $"{n}TH"
             };
         }
-
-
+        
     }
 }
