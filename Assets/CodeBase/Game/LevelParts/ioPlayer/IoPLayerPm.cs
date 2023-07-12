@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CodeBase.Game.LevelParts.Finish;
 using CodeBase.Game.LevelParts.Jumper;
+using Cysharp.Threading.Tasks;
 using JumpUp;
 using JumpUp.External;
 using UniRx;
@@ -24,7 +25,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             public ReactiveProperty<NavMeshAgent> _agent;
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
-            public ReactiveTrigger startGame;
+            public ReactiveTrigger startRun;
             public ReactiveTrigger grounded;
             public IReadOnlyReactiveTrigger finish;
             public ReactiveProperty<Transform> _nameView;
@@ -107,7 +108,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 
                 //Debug.LogError($"{_ctx.ioplayer.Value.gameObject.name} {nextpoint}");
 
-                await Task.Yield();
+                  await UniTask.Yield();
                 }
         }
 
@@ -160,7 +161,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                 case GameState.PLAY:
                     _isAlive = true;
                     Raycasting();
-                    _ctx.startGame.Notify();
+                    _ctx.startRun.Notify();
                     LookForJumper();
                     var i = Random.Range(0, 100);
                     _ctx.ioplayer.Value.gameObject.name = $"io player {i}";
@@ -200,7 +201,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                 while ((_ctx.gameState.Value != GameState.FINISH || _ctx.gameState.Value != GameState.GAMEOVER) || _playerTr.gameObject.activeSelf)
                 {
                     _name.LookAt(UnityEngine.Camera.main.transform.position);
-                    await Task.Yield();
+                    await UniTask.Yield();
                 }
             }
             catch { }

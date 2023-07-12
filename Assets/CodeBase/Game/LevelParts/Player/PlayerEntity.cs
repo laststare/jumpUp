@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using CodeBase.Content;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace CodeBase.Game.LevelParts.Player
         public struct Ctx
         {
             public IContent content;
-            public ReactiveEvent<Vector2> moveCoor;
+            public ReactiveEvent<Vector2> moveCoordinates;
             public ReactiveProperty<Transform> player;
             public IReactiveProperty<GameState> gameState;
             public Level.Level Level;
@@ -24,7 +24,7 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<UnityEngine.Camera> camera;
             public ReactiveProperty<List<Transform>> players;
             public ReactiveEvent<Transform> leader;
-            public ReactiveTrigger startGame;
+            public ReactiveTrigger startRun;
         }
 
         private Ctx _ctx;
@@ -62,10 +62,10 @@ namespace CodeBase.Game.LevelParts.Player
                 playerBody = _playerBody,
                 moveDirection = _moveDirection,
                 gameState = _ctx.gameState,
-                moveCoor = _ctx.moveCoor,
+                moveCoordinates = _ctx.moveCoordinates,
                 endlessSignTutor = _ctx.endlessSignTutor,
                 die = _die,
-                startGame = _ctx.startGame,
+                startRun = _ctx.startRun,
                 floorPart = _ctx.floorPart,
                 roofPart =_ctx.roofPart,
                 smallJumpSearcher = _smallJumpSearcher,
@@ -88,7 +88,7 @@ namespace CodeBase.Game.LevelParts.Player
                 playerBody = _playerBody,
                 moveDirection = _moveDirection,
                 die = _die,
-                startGame = _ctx.startGame,
+                startRun = _ctx.startRun,
                 smallJumpSearcher = _smallJumpSearcher,
                 rayPlace = _rayPlace,
                 mask = _mask,

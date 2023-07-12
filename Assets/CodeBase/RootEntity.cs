@@ -3,7 +3,6 @@ using CodeBase.Game;
 using CodeBase.UI;
 using CodeBase.UI.Input;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -37,7 +36,7 @@ namespace CodeBase
         private readonly ReactiveTrigger _onClick = new ReactiveTrigger();
         private readonly ReactiveProperty<bool> _needStartTutor;
         private readonly ReactiveProperty<string> _winnerName = new ReactiveProperty<string>();
-        private readonly ReactiveTrigger _startGame = new ReactiveTrigger();
+        private readonly ReactiveTrigger _startRun = new ReactiveTrigger();
         private readonly ReactiveTrigger _countingIsOver = new ReactiveTrigger();
         private readonly ReactiveProperty<int> _playersRacePlace = new ReactiveProperty<int>();
         private readonly ReactiveProperty<GameObject> _endlessSignTutor = new ReactiveProperty<GameObject>();
@@ -80,20 +79,20 @@ namespace CodeBase
                 contentLoader = _contentLoader,
                 levelIndex = _levelIndex,
                 gameState = _gameState,
-                Start = _start,
-                GameOver = _gameOver,
-                Finish = _finish,
-                moveCoor = _moveCoordinates,
+                start = _start,
+                gameOver = _gameOver,
+                finish = _finish,
+                moveCoordinates = _moveCoordinates,
                 player = _player,
-                _onClick = _onClick,
+                onClick = _onClick,
                 endlessSignTutor = _endlessSignTutor,
                 blocksContainer = _ctx.blocksContainer,
                 needStartTutor = _needStartTutor,
                 winnerName = _winnerName,
-                startGame = _startGame,
                 playersRacePlace = _playersRacePlace,
                 uiCanvas = _ctx.uiCanvas,
-                countingIsOver = _countingIsOver
+                countingIsOver = _countingIsOver,
+                startRun = _startRun
             };
             _gameEntity = new GameEntity(gameEntityCtx);
             AddUnsafe(_gameEntity);
@@ -105,7 +104,7 @@ namespace CodeBase
             {
                 gameState = _gameState,
                 inputview = _ctx.inputview,
-                moveCoor = _moveCoordinates,
+                moveCoordinates = _moveCoordinates,
                 _onClick = _onClick,
                 controll = _ctx.controll,
                 content = _contentLoader,

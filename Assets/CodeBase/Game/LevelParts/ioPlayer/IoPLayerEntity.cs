@@ -38,7 +38,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         private readonly ReactiveProperty<LayerMask> _maskUpper;
         private readonly ReactiveTrigger _die;
         private readonly ReactiveTrigger _finish;
-        private readonly ReactiveTrigger _startGame;
+        private readonly ReactiveTrigger _startRun;
         private readonly ReactiveTrigger _grounded;
         private readonly ReactiveTrigger _makeSmallJump;
         private readonly ReactiveProperty<NavMeshAgent> _agent;
@@ -50,7 +50,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
   
             _die = new ReactiveTrigger();
             _finish = new ReactiveTrigger();
-            _startGame = new ReactiveTrigger();
+            _startRun = new ReactiveTrigger();
             _smallJumpSearcher = new ReactiveProperty<Transform>();
             _maskUpper = new ReactiveProperty<LayerMask>();
             _makeSmallJump = new ReactiveTrigger();
@@ -71,7 +71,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                 mask = _mask,
                 roofPart = _ctx.roofPart,
                 floorPart = _ctx.floorPart,
-                startGame = _startGame,
+                startRun = _startRun,
                 grounded = _grounded,
                 smallJumpSearcher = _smallJumpSearcher,
                 finish = _finish,
@@ -92,7 +92,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                 ioplayer = _ioplayer,
                 rayPlace = _rayPlace,
                 mask = _mask,
-                startGame = _startGame,
+                startRun = _startRun,
                 grounded = _grounded,
                 smallJumpSearcher = _smallJumpSearcher,
                 finish = _finish,

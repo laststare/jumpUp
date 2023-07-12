@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CodeBase.Content;
 using Cysharp.Threading.Tasks;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -17,11 +17,11 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<Transform> player;
             public ReactiveProperty<Transform> playerBody;
             public IReactiveProperty<GameState> gameState;
-            public IReadOnlyReactiveEvent<Vector2> moveCoor;
+            public IReadOnlyReactiveEvent<Vector2> moveCoordinates;
             public ReactiveProperty<Vector3> moveDirection;
             public ReactiveProperty<GameObject> endlessSignTutor;
             public ReactiveTrigger die;
-            public ReactiveTrigger startGame;
+            public ReactiveTrigger startRun;
             public Level.Level Level;
             public ReactiveEvent<GameObject> floorPart;
             public ReactiveEvent<GameObject> roofPart;
@@ -39,7 +39,7 @@ namespace CodeBase.Game.LevelParts.Player
         private readonly float sideStep = 0.1f;
         private Vector3 _moveDirection;
         private Transform _playerTr, _playerBody, _rayPlace;
-        private Vector2 _moveCoor;
+        private Vector2 _moveCoordinates;
         private RaycastHit _hit, _hitFront;
         private GameObject _tmpObj;
         private LayerMask _mask, _maskUpper;
@@ -52,7 +52,7 @@ namespace CodeBase.Game.LevelParts.Player
             AddUnsafe(_ctx.player.Subscribe(GetPlayer));
             AddUnsafe(_ctx.gameState.Subscribe(GameStateReceiver));
             AddUnsafe(_ctx.die.Subscribe(Die));
-            AddUnsafe(_ctx.moveCoor.Subscribe(GetCoor));
+            AddUnsafe(_ctx.moveCoordinates.Subscribe(GetCoordinates));
             AddUnsafe(_ctx.finish.Subscribe(Finish));
             AddUnsafe(_ctx._name.Subscribe(GetName));
         }
@@ -65,32 +65,32 @@ namespace CodeBase.Game.LevelParts.Player
             SeePlayer();
         }
 
-        private void GetCoor(Vector2 moveCoor) =>  _moveCoor = moveCoor;
+        private void GetCoordinates(Vector2 moveCoordinates) =>  _moveCoordinates = moveCoordinates;
                   
         private async void WaitTouch()
         {
-            while (_moveCoor == Vector2.zero)
+            while (_moveCoordinates == Vector2.zero)
             {
-                await Task.Yield();
+                await UniTask.Yield();
             }
             Object.Destroy(_ctx.endlessSignTutor.Value);
-            _ctx.startGame.Notify();
+            _ctx.startRun.Notify();
             _canDelete = true;
         }
 
-        private void Move(Vector2 moveCoor)
+        private void Move(Vector2 moveCoordinates)
         {
             RayCasting();
             if (_ctx.gameState.Value != GameState.PLAY) return;
-            _moveDirection = new Vector3(moveCoor.x, 0, moveCoor.y);
+            _moveDirection = new Vector3(moveCoordinates.x, 0, moveCoordinates.y);
             _moveDirection = _playerTr.TransformDirection(_moveDirection);
             _moveDirection *= _speed;
             _moveDirection.y -= 20 * Time.deltaTime;
 
             _ctx.moveDirection.Value = _moveDirection;
 
-            var h = moveCoor.x;
-            var v = moveCoor.y;
+            var h = moveCoordinates.x;
+            var v = moveCoordinates.y;
             if (h != 0 && v != 0)
             {
                 var angle1 = Mathf.LerpAngle(_playerBody.localEulerAngles.y, Mathf.Atan2(h, v) * 180 / Mathf.PI, Time.deltaTime * 50);
@@ -149,7 +149,7 @@ namespace CodeBase.Game.LevelParts.Player
                     _mask = _ctx.mask.Value;
                     _maskUpper = _ctx.maskUpper.Value;
                     WaitTouch();
-                    AddUnsafe(_ctx.moveCoor.Subscribe(x => Move(x)));
+                    AddUnsafe(_ctx.moveCoordinates.Subscribe(x => Move(x)));
                     break;
                 case GameState.GAMEOVER:
                     Object.Destroy(_ctx.endlessSignTutor.Value);
@@ -168,7 +168,7 @@ namespace CodeBase.Game.LevelParts.Player
                 _moveDirection.y -= 20 * Time.deltaTime;
                 
                 _ctx.moveDirection.Value = _moveDirection;
-                await Task.Yield();
+                await UniTask.Yield();
             }
         }
 
@@ -191,7 +191,7 @@ namespace CodeBase.Game.LevelParts.Player
                 while (_playerTr.gameObject.activeSelf)
                 {
                     _name.LookAt(UnityEngine.Camera.main.transform.position);
-                    await Task.Yield();
+                    await UniTask.Yield();
                 }
             }
             catch { }

@@ -9,11 +9,10 @@ namespace CodeBase.UI
     public class GameInfoView : MonoBehaviour
     {
         [SerializeField]
-        private Text _centralText;
+        private Text centralText;
         public struct Ctx
         {
             public IReactiveProperty<GameState> gameState;
-
         }
 
         private Ctx _ctx;
@@ -30,14 +29,14 @@ namespace CodeBase.UI
             {
                 case GameState.START:
                     gameObject.SetActive(true);
-                    _centralText.text = "TAP TO PLAY";
+                    centralText.text = "TAP TO PLAY";
                     break;
                 case GameState.STARTTUTOR:
                     gameObject.SetActive(false);
                     break;
                 case GameState.COUNTER:
                     gameObject.SetActive(true);
-                    _centralText.text = "WAITING FOR PLAYERS";
+                    centralText.text = "WAITING FOR PLAYERS";
                     CloseAfterTime(3000);
                     break;
                 case GameState.PLAY:
@@ -45,11 +44,11 @@ namespace CodeBase.UI
                     break;
                 case GameState.FINISH:
                     gameObject.SetActive(true);
-                    _centralText.text = "TAP TO NEXT";
+                    centralText.text = "TAP TO NEXT";
                     break;
                 case GameState.GAMEOVER:
                     gameObject.SetActive(true);
-                    _centralText.text = "TAP TO REPLAY";
+                    centralText.text = "TAP TO REPLAY";
                     break;
             }
         }

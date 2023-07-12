@@ -1,6 +1,6 @@
 ﻿using Cinemachine;
+using CodeBase.Content;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace CodeBase.Game.LevelParts.Camera
             public Transform uiCanvas;
         }
 
-        private Ctx  _ctx;
+        private Ctx _ctx;
         private readonly CameraView _cameraview;
         private CameraPm _pm;
         private readonly ReactiveProperty<CinemachineVirtualCamera> _vcam;

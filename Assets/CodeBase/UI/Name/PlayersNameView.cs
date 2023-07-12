@@ -1,6 +1,6 @@
-﻿using JumpUp.Content;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using CodeBase.Content;
 using UniRx;
 using UnityEngine;
 

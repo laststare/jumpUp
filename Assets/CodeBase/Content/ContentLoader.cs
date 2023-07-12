@@ -1,17 +1,12 @@
-﻿using System;
-using JumpUp.External;
-using System.Collections;
-using System.Collections.Generic;
-using CodeBase;
-using CodeBase.Content;
+﻿using System.Collections.Generic;
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
 using CodeBase.UI;
+using JumpUp.External;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-namespace JumpUp.Content
+namespace CodeBase.Content
 {
    
     public interface IContent : System.IDisposable
@@ -20,19 +15,14 @@ namespace JumpUp.Content
         GameObject GetPlayerView();
         GameObject GetCamera();
         GameObject GetFinish();
-
         JumperView GetJumper(JumperType type);
-
         GameObject GetCell(CellColor type);
-
         GameObject GetNavFloor(FloorType type);
-
         GameObject GetEmptyCell();
         Material GetGlassMat();
         Material GetWhiteMat();
         IoPLayerView GetIoPlayer(ioPlayerType type);
         string GetIoName();
-
         void ResetLevel();
         Material GetManMaterial();
         GameObject GetStartTutorText();
@@ -40,7 +30,6 @@ namespace JumpUp.Content
         StartCounterView GetStartCounterView();
         GameObject GetEndlessSignTutor();
         WinTextView GetWinTextView();
-
     }
 
     public class ContentLoader : BaseDisposable, IContent

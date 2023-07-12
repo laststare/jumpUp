@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using CodeBase.Content;
 using CodeBase.Game.LevelParts.Camera;
 using CodeBase.Game.LevelParts.Level;
 using CodeBase.Game.LevelParts.Player;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -17,13 +17,13 @@ namespace CodeBase.Game {
             public IReactiveProperty<GameState> gameState; 
             public ReactiveTrigger destroy;
             public IReactiveProperty<int> levelIndex;
-            public ReactiveEvent<Vector2> moveCoor;
+            public ReactiveEvent<Vector2> moveCoordinates;
             public ReactiveProperty<Transform> player;
             public ReactiveProperty<GameObject> endlessSignTutor;
             public Transform blocksContainer;
             public ReactiveProperty<bool> needStartTutor;
             public ReactiveProperty<string> winnerName;
-            public ReactiveTrigger startGame;
+            public ReactiveTrigger startRun;
             public ReactiveProperty<int> playersRacePlace;
             public Transform uiCanvas;
         }
@@ -80,7 +80,7 @@ namespace CodeBase.Game {
             var playerEntityCtx = new PlayerEntity.Ctx
             {
                 content = _ctx.contentLoader,
-                moveCoor = _ctx.moveCoor,
+                moveCoordinates = _ctx.moveCoordinates,
                 player = _ctx.player,
                 gameState = _ctx.gameState,
                 Level = level,
@@ -92,7 +92,7 @@ namespace CodeBase.Game {
                 camera = _camera,
                 players = _players,
                 leader = _leader,
-                startGame = _ctx.startGame,
+                startRun = _ctx.startRun,
             };
             _playerEntity = new PlayerEntity(playerEntityCtx);
             AddUnsafe(_playerEntity);

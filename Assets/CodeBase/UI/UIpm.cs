@@ -1,5 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using JumpUp.Content;
+﻿using CodeBase.Content;
+using Cysharp.Threading.Tasks;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

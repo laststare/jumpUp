@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Cinemachine;
+using CodeBase.Content;
 using Cysharp.Threading.Tasks;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -48,7 +48,7 @@ namespace CodeBase.Game.LevelParts.Camera
                if (_vcam.m_Lens.FieldOfView < 50) 
                     _vcam.m_Lens.FieldOfView += Time.deltaTime * 30;
                time += Time.deltaTime;
-                    await Task.Yield();
+                    await UniTask.Yield();
             }
             _vcam.m_Lens.FieldOfView = 50;
         }
@@ -61,7 +61,7 @@ namespace CodeBase.Game.LevelParts.Camera
                 if (_vcam.m_Lens.FieldOfView < 70)
                     _vcam.m_Lens.FieldOfView += Time.deltaTime * 40;
                 time += Time.deltaTime;
-                await Task.Yield();
+                await UniTask.Yield();
             }
             _vcam.m_Lens.FieldOfView = 70;
         }
@@ -74,7 +74,7 @@ namespace CodeBase.Game.LevelParts.Camera
                 if (_vcam.m_Lens.FieldOfView > 30)
                     _vcam.m_Lens.FieldOfView -= Time.deltaTime * 30;
                 time += Time.deltaTime;
-                await Task.Yield();
+                await UniTask.Yield();
             }
             _vcam.m_Lens.FieldOfView = 30;
         }

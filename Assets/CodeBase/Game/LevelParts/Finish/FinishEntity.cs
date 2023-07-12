@@ -1,5 +1,4 @@
 ﻿using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;

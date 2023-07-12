@@ -57,7 +57,7 @@ namespace CodeBase.Game.LevelParts.Camera
                 while (vcam.m_Lens.FieldOfView < 60)
                 {
                     vcam.m_Lens.FieldOfView += Time.deltaTime * 20;
-                    await Task.Yield();
+                    await UniTask.Yield();
                 }
                 vcam.m_Lens.FieldOfView = 60;
             }
@@ -66,7 +66,7 @@ namespace CodeBase.Game.LevelParts.Camera
                 while (vcam.m_Lens.FieldOfView > 50)
                 {
                     vcam.m_Lens.FieldOfView -= Time.deltaTime * 20;
-                    await Task.Yield();
+                    await UniTask.Yield();
                 }
                 vcam.m_Lens.FieldOfView = 50;
             }

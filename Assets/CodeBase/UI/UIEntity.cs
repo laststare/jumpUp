@@ -1,7 +1,7 @@
-﻿using CodeBase.UI.Input;
+﻿using CodeBase.Content;
+using CodeBase.UI.Input;
 using DigitalRubyShared;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.External;
 using UniRx;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace CodeBase.UI
             public IContent content;
             public ReactiveProperty<GameState> gameState;
             public InputView inputview;
-            public ReactiveEvent<Vector2> moveCoor;
+            public ReactiveEvent<Vector2> moveCoordinates;
             public ReactiveTrigger _onClick;
             public FingersJoystickScript controll;
             public ReactiveTrigger countingIsOver;
@@ -32,7 +32,7 @@ namespace CodeBase.UI
 
             var fingerCtx = new FingersJoystickScript.Ctx()
             {
-                moveCoor = _ctx.moveCoor,
+                moveCoordinates = _ctx.moveCoordinates,
                 gameState = _ctx.gameState
             };
 

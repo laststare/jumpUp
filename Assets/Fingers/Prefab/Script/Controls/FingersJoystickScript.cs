@@ -407,7 +407,7 @@ namespace DigitalRubyShared
         public struct Ctx
         {
             public IReactiveProperty<GameState> gameState;
-            public ReactiveEvent<Vector2> moveCoor;
+            public ReactiveEvent<Vector2> moveCoordinates;
         }
 
         private Ctx _ctx;
@@ -421,7 +421,7 @@ namespace DigitalRubyShared
             _ctx.gameState.Subscribe(x => GameStateReciever(x)).AddTo(this);
         }
 
-        private void SetCoordinates() => _ctx.moveCoor.Notify(CurrentAmount);
+        private void SetCoordinates() => _ctx.moveCoordinates.Notify(CurrentAmount);
 
         private void GameStateReciever(GameState state)
         {

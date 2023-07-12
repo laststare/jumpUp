@@ -7,7 +7,6 @@ using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;
 using Cysharp.Threading.Tasks;
 using JumpUp;
-using JumpUp.Content;
 using JumpUp.Data;
 using JumpUp.External;
 using UniRx;
@@ -269,7 +268,7 @@ namespace CodeBase.Game.LevelParts.Level
                         _ctx.playersRacePlace.Value = i + 1;            
                 }
                 leaders.Clear();
-                await Task.Yield();
+                await UniTask.Yield();
             }
             
         }

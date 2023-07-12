@@ -138,16 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f775c844745a41942828d24b42b4d23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centralText: {fileID: 9207964887483736189}
-  levelnumText: {fileID: 0}
-  counetrTx: {fileID: 0}
-  winLoseTx: {fileID: 0}
-  winnerName: {fileID: 0}
-  playersRacePlace: {fileID: 0}
-  waitingText: {fileID: 0}
-  complete: {fileID: 0}
-  backDown: {fileID: 0}
-  backUp: {fileID: 0}
+  centralText: {fileID: 9207964887483736189}
 --- !u!114 &5035392655098324956
 MonoBehaviour:
   m_ObjectHideFlags: 0

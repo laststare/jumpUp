@@ -17,7 +17,7 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<Transform> playerBody;
             public IReadOnlyReactiveProperty<Vector3> moveDirection;
             public ReactiveTrigger die;
-            public ReactiveTrigger startGame;
+            public ReactiveTrigger startRun;
             public ReactiveProperty<Transform> player;
             public IReadOnlyReactiveProperty<Transform> smallJumpSearcher;
             public ReactiveProperty<Transform> rayPlace;
@@ -62,7 +62,7 @@ namespace CodeBase.Game.LevelParts.Player
             _ctx.playerBody.Value = body;
             _ctx.rayPlace.Value = rayPlace;
             _ctx._name.Value = nameCanvas;
-            _ctx.startGame.Subscribe(StartGame).AddTo(this);
+            _ctx.startRun.Subscribe(startRun).AddTo(this);
             _ctx.smallJumpSearcher.Subscribe(Searcher).AddTo(this);
             grounded = new ReactiveProperty<bool>();
             grounded.ObserveEveryValueChanged(x => x.Value).Subscribe(CheckGround).AddTo(this);
@@ -128,7 +128,7 @@ namespace CodeBase.Game.LevelParts.Player
             anim.SetFloat(Fly, f);
         }
 
-        private void StartGame()
+        private void startRun()
         {
             anim.SetTrigger(Go);
             _ctx.moveDirection.Subscribe(x => PlayersMove(x)).AddTo(this);

@@ -21,7 +21,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             public ReactiveProperty<Transform> ioplayer;
             public ReactiveProperty<Transform> rayPlace;
             public ReactiveProperty<LayerMask> mask;
-            public IReadOnlyReactiveTrigger startGame;
+            public IReadOnlyReactiveTrigger startRun;
             public ReactiveTrigger grounded;
             public IReadOnlyReactiveProperty<Transform> smallJumpSearcher;
             public ReactiveTrigger finish;
@@ -66,7 +66,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             _ctx.ioplayer.Value = transform;
             _ctx._name.Value = nameCanvas;
 
-            _ctx.startGame.Subscribe(StartGame).AddTo(this);
+            _ctx.startRun.Subscribe(startRun).AddTo(this);
             _grounded = new ReactiveProperty<bool>();
             _grounded.ObserveEveryValueChanged(x => x.Value).Subscribe(x => CheckGround(x)).AddTo(this);
            
@@ -157,7 +157,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             }
         }
 
-        private void StartGame()
+        private void startRun()
         {
             anim.SetTrigger(Go);
             _isAlive = true;
