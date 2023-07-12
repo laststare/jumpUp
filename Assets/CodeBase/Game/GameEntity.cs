@@ -28,9 +28,6 @@ namespace CodeBase.Game
             public ReactiveProperty<string> winnerName;
             public ReactiveTrigger startGame;
             public ReactiveProperty<int> playersRacePlace;
-            
-            public ReactiveProperty<bool> interShowTime;
-            public ReactiveTrigger ReloadAds;
         }
 
         private readonly Ctx _ctx;
@@ -61,7 +58,6 @@ namespace CodeBase.Game
                 GameOver = _ctx.GameOver,
                 Finish = _ctx.Finish,
                 NeedBigTutor = _ctx.needBigTutor,
-                InterShowTime = _ctx.interShowTime
             };
             var gamePm = new GamePm(gamePmCtx);
             AddUnsafe(gamePm);
@@ -109,7 +105,6 @@ namespace CodeBase.Game
                 needBigTutor = _ctx.needBigTutor,
                 winnerName = _ctx.winnerName,
                 startGame = _ctx.startGame,
-                ReloadAds = _ctx.ReloadAds,
                 playersRacePlace = _ctx.playersRacePlace
             };
 

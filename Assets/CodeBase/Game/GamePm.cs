@@ -13,7 +13,6 @@ namespace CodeBase.Game
             public ReactiveTrigger GameOver;
             public ReactiveTrigger Finish;
             public ReactiveProperty<bool> NeedBigTutor;
-            public ReactiveProperty<bool> InterShowTime;
         }
 
 
@@ -35,8 +34,7 @@ namespace CodeBase.Game
                 case GameState.NONE:
                     break;
                 case GameState.START:
-                    if (!_ctx.InterShowTime.Value)
-                        _ctx.GameState.Value = _ctx.NeedBigTutor.Value == true? GameState.BIGTUTOR : GameState.COUNTER;
+                        _ctx.GameState.Value = _ctx.NeedBigTutor.Value? GameState.BIGTUTOR : GameState.COUNTER;
                     break;
                 case GameState.PLAY:
                     break;
@@ -47,7 +45,6 @@ namespace CodeBase.Game
                       _ctx.GameOver.Notify();
                     break;
                 case GameState.TUTOR:
-
                     break;
             }
         }

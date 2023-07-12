@@ -26,8 +26,6 @@ namespace CodeBase.Game {
             public ReactiveProperty<string> winnerName;
             public ReactiveTrigger startGame;
             public ReactiveProperty<int> playersRacePlace;
-
-            public ReactiveTrigger ReloadAds;
         }
 
         private PlayerEntity _playerEntity;
@@ -103,7 +101,6 @@ namespace CodeBase.Game {
                 leader = _leader,
                 showTutor = _ctx.showTutor,
                 startGame = _ctx.startGame,
-                ReloadAds = _ctx.ReloadAds
             };
             _playerEntity = new PlayerEntity(playerEntityCtx);
             AddUnsafe(_playerEntity);

@@ -42,9 +42,7 @@ namespace CodeBase
         private readonly ReactiveTrigger _startGame;
 
         private readonly ReactiveProperty<int> _playersRacePlace;
-        //ads
-        private readonly ReactiveTrigger _reloadAds;
-        private readonly ReactiveProperty<bool> _interShowTime; 
+
 
         public RootEntity(Ctx ctx)
         {
@@ -65,8 +63,6 @@ namespace CodeBase
             _needBigTutor = new ReactiveProperty<bool>(PlayerPrefs.GetInt("bigTutor") == 0);
             _playersRacePlace = new ReactiveProperty<int>();
             _startGame = new ReactiveTrigger();
-            _reloadAds = new ReactiveTrigger();
-            _interShowTime =  new ReactiveProperty<bool>();
             Init();
         }
 
@@ -108,8 +104,6 @@ namespace CodeBase
                 needBigTutor = _needBigTutor,
                 winnerName = _winnerName,
                 startGame = _startGame,
-                interShowTime = _interShowTime,
-                ReloadAds = _reloadAds,
                 playersRacePlace = _playersRacePlace
             };
             _gameEntity = new GameEntity(gameEntityCtx);

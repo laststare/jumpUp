@@ -26,7 +26,6 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveEvent<Transform> leader;
             public ReactiveTrigger showTutor;
             public ReactiveTrigger startGame;
-            public ReactiveTrigger ReloadAds;
         }
 
         private Ctx _ctx;
@@ -78,7 +77,6 @@ namespace CodeBase.Game.LevelParts.Player
                 _name = _name,
                 showTutor = _ctx.showTutor,
                 maskUpper = _maskUpper,
-                ReloadAds = _ctx.ReloadAds
             };
             _pm = new PlayerPm(playerPmCtx);
             AddUnsafe(_pm);

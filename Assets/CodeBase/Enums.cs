@@ -1,4 +1,4 @@
-﻿namespace JumpUp
+﻿namespace CodeBase
 {
     public enum GameState
     {
@@ -11,21 +11,7 @@
         COUNTER,
         BIGTUTOR
     }
-
-    public enum FriendType
-    {
-        simple,
-        pinkHat,
-        girl,
-        beard,
-        greenCap
-    }
-
-    public enum EnemyType
-    {
-        simple,
-        big
-    }
+    
 
     public enum JumperType
     {
@@ -36,15 +22,7 @@
         bat,
         oldCell
     }
-
-    public enum AnimAction
-    {
-        idle,
-        run,
-        smallJump,
-        flyUp,
-        flyDown
-    }
+    
 
     public enum FloorType
     { 

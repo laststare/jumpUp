@@ -1,6 +1,7 @@
 ﻿using JumpUp.External;
 using System.Collections;
 using System.Collections.Generic;
+using CodeBase;
 using CodeBase.Content;
 using CodeBase.Game.LevelParts.ioPlayer;
 using CodeBase.Game.LevelParts.Jumper;

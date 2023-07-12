@@ -32,7 +32,6 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<Transform> _name;
             public ReactiveTrigger showTutor;
             public ReactiveProperty<LayerMask> maskUpper;
-            public ReactiveTrigger ReloadAds;
         }
 
         private Ctx _ctx;
@@ -78,7 +77,6 @@ namespace CodeBase.Game.LevelParts.Player
             }
             _ctx.tutor.gameObject.SetActive(false);
             _ctx.startGame.Notify();
-            _ctx.ReloadAds.Notify();
             _canDelete = true;
         }
 

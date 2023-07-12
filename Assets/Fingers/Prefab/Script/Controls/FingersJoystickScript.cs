@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CodeBase;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
