@@ -1,2 +1,2 @@
 # jumpUp
-Jump Up HC game
+Jump Up - небольщая мобильная игра в жанре Hyper Casual, выполненная в архитектуре Composition Root.
