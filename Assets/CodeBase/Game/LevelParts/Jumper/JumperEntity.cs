@@ -7,7 +7,7 @@ namespace CodeBase.Game.LevelParts.Jumper
     public class JumperEntity : BaseDisposable
     {
 
-        public struct Ctx
+        public struct Context
         {
             public LevelContainer.Jumper jumper;
             public JumperView view;
@@ -16,15 +16,15 @@ namespace CodeBase.Game.LevelParts.Jumper
             public GameObject emptyCell;
         }
 
-        private readonly Ctx _ctx;
+        private readonly Context _context;
         private readonly JumperView _view;
         private readonly JumperPm _pm;
 
-        public JumperEntity(Ctx Ctx)
+        public JumperEntity(Context context)
         {
-            _ctx = Ctx;
+            _context = context;
 
-            var JumperPmDep = new JumperPm.Ctx()
+            var JumperPmDep = new JumperPm.Context()
             {
 
             };
@@ -32,13 +32,13 @@ namespace CodeBase.Game.LevelParts.Jumper
             AddUnsafe(_pm);
 
 
-            _view = Object.Instantiate(_ctx.view, _ctx.position, Quaternion.identity);
+            _view = Object.Instantiate(_context.view, _context.position, Quaternion.identity);
 
-            _view.SetMain(new JumperView.Ctx
+            _view.Init(new JumperView.Context
             {
-                jumper = _ctx.jumper,
-                blocksContainer = _ctx.blocksContainer,
-                emptyCell = _ctx.emptyCell
+                jumper = _context.jumper,
+                blocksContainer = _context.blocksContainer,
+                emptyCell = _context.emptyCell
             });
         }
 

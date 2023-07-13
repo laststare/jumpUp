@@ -8,14 +8,14 @@ namespace CodeBase.Game.LevelParts.Jumper
 {
     public class JumperView : MonoBehaviour, ITrigger
     {
-        public struct Ctx
+        public struct Context
         {
             public LevelContainer.Jumper jumper;
             public Transform blocksContainer;
             public GameObject emptyCell;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         public JumperType type;
         private Animator _anim;
         [SerializeField]
@@ -23,11 +23,11 @@ namespace CodeBase.Game.LevelParts.Jumper
 
         private static readonly int Jump = Animator.StringToHash("jump");
 
-        public void SetMain(Ctx ctx)
+        public void Init(Context context)
         {
-            _ctx = ctx;
+            _context = context;
             if (type == JumperType.medium) _anim = GetComponent<Animator>();
-            else transform.position = _ctx.jumper.position;
+            else transform.position = _context.jumper.position;
         }
 
         private void OnTriggerEnter(Collider other) => Entering(other);
@@ -59,7 +59,7 @@ namespace CodeBase.Game.LevelParts.Jumper
                     break;
                 case JumperType.oldCell:
                     jump.DoJump(type);
-                    Instantiate(_ctx.emptyCell, transform.position, Quaternion.identity, _ctx.blocksContainer);
+                    Instantiate(_context.emptyCell, transform.position, Quaternion.identity, _context.blocksContainer);
                     gameObject.SetActive(false);
                     break;
             }

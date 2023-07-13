@@ -7,7 +7,7 @@ namespace CodeBase
 {
     public class Root : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public PrefabsInfo prefabs;
             public DigitalRubyShared.FingersJoystickScript controll;
@@ -15,37 +15,37 @@ namespace CodeBase
             public Transform uiCanvas;
         }
 
-        private readonly Ctx  _ctx;
-        private RootEntity  _rootEntity;
+        private readonly Context _context;
+        private RootEntity _rootEntity;
         private static Root _instance;
         private static bool RootExists  => _instance != null;
 
-        private Root(Ctx ctx)
+        private Root(Context context)
         {
-            _ctx = ctx;
+            _context = context;
             CreateRootEntity();
         }
 
-        public static Root CreateRoot(Ctx ctx)
+        public static Root CreateRoot(Context context)
         {
             if (RootExists)
             {
                 return null;
             }
-            _instance = new Root(ctx);
+            _instance = new Root(context);
             return _instance;
         }
 
         private void CreateRootEntity()
         {
-            var ctx = new RootEntity.Ctx
+            var context = new RootEntity.Context
             {
-                prefabs = _ctx.prefabs,
-                controll = _ctx.controll,
-                blocksContainer = _ctx.blocksContainer,
-                uiCanvas = _ctx.uiCanvas
+                prefabs = _context.prefabs,
+                controll = _context.controll,
+                blocksContainer = _context.blocksContainer,
+                uiCanvas = _context.uiCanvas
             };
-            _rootEntity = new RootEntity(ctx);
+            _rootEntity = new RootEntity(context);
             AddUnsafe(_rootEntity);
         }
 

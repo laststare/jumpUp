@@ -8,7 +8,7 @@ namespace CodeBase.Game
 {
     public class GameEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IContent contentLoader;
             public IReactiveProperty<int> levelIndex;
@@ -29,27 +29,27 @@ namespace CodeBase.Game
             public ReactiveTrigger startRun;
         }
 
-        private readonly Ctx _ctx;
+        private readonly Context _context;
 
         private readonly ReactiveTrigger _destroy = new ReactiveTrigger();
         private GamePlayEntity _gamePlayEntity;
         
-        public GameEntity(Ctx ctx)
+        public GameEntity(Context context)
         {
-            _ctx = ctx;
-            AddUnsafe(_ctx.start.Subscribe(() => StartLevel(_ctx.levelIndex.Value)));
-            AddUnsafe(_ctx.gameOver.Subscribe(RestartLevel));
-            AddUnsafe(_ctx.finish.Subscribe(() => StartLevel(_ctx.levelIndex.Value + 1)));
-            AddUnsafe(_ctx.countingIsOver.Subscribe(() => { _ctx.gameState.Value = GameState.PLAY; }));
-            var gameCyclePmCtx = new GameCyclePm.Ctx()
+            _context = context;
+            AddUnsafe(_context.start.Subscribe(() => StartLevel(_context.levelIndex.Value)));
+            AddUnsafe(_context.gameOver.Subscribe(RestartLevel));
+            AddUnsafe(_context.finish.Subscribe(() => StartLevel(_context.levelIndex.Value + 1)));
+            AddUnsafe(_context.countingIsOver.Subscribe(() => { _context.gameState.Value = GameState.PLAY; }));
+            var gameCyclePmContext = new GameCyclePm.Context()
             {
-                GameState = _ctx.gameState,
-                OnClick = _ctx.onClick,
-                GameOver = _ctx.gameOver,
-                Finish = _ctx.finish,
-                needStartTutor = _ctx.needStartTutor,
+                GameState = _context.gameState,
+                OnClick = _context.onClick,
+                GameOver = _context.gameOver,
+                Finish = _context.finish,
+                needStartTutor = _context.needStartTutor,
             };
-            var gameCyclePm = new GameCyclePm(gameCyclePmCtx);
+            var gameCyclePm = new GameCyclePm(gameCyclePmContext);
             AddUnsafe(gameCyclePm);
         }
 
@@ -61,39 +61,39 @@ namespace CodeBase.Game
             PreloadLevel(levelIndex);
         }
 
-        private void RestartLevel() => PreloadLevel(_ctx.levelIndex.Value);
+        private void RestartLevel() => PreloadLevel(_context.levelIndex.Value);
 
         private void PreloadLevel(int levelIndex)
         {
             _destroy.Notify();
-            _ctx.levelIndex.Value = levelIndex;
-            var level = new Level(_ctx.contentLoader.GetLevelContainer(levelIndex));
+            _context.levelIndex.Value = levelIndex;
+            var level = new Level(_context.contentLoader.GetLevelContainer(levelIndex));
             CreateGamePlayEntity(level);  
-            _ctx.gameState.Value = GameState.START;
+            _context.gameState.Value = GameState.START;
         }
 
         #endregion
 
         private void CreateGamePlayEntity(Level level)
         {
-            var gamePlayEntityCtx = new GamePlayEntity.Ctx()
+            var gamePlayEntityContext = new GamePlayEntity.Context()
             {
-                contentLoader = _ctx.contentLoader,
-                gameState = _ctx.gameState,
+                contentLoader = _context.contentLoader,
+                gameState = _context.gameState,
                 destroy = _destroy,
-                levelIndex = _ctx.levelIndex,
-                moveCoordinates = _ctx.moveCoordinates,
-                player = _ctx.player,
-                endlessSignTutor = _ctx.endlessSignTutor,
-                blocksContainer = _ctx.blocksContainer,
-                needStartTutor = _ctx.needStartTutor,
-                winnerName = _ctx.winnerName,
-                startRun = _ctx.startRun,
-                playersRacePlace = _ctx.playersRacePlace,
-                uiCanvas = _ctx.uiCanvas
+                levelIndex = _context.levelIndex,
+                moveCoordinates = _context.moveCoordinates,
+                player = _context.player,
+                endlessSignTutor = _context.endlessSignTutor,
+                blocksContainer = _context.blocksContainer,
+                needStartTutor = _context.needStartTutor,
+                winnerName = _context.winnerName,
+                startRun = _context.startRun,
+                playersRacePlace = _context.playersRacePlace,
+                uiCanvas = _context.uiCanvas
             };
 
-            _gamePlayEntity = new GamePlayEntity(gamePlayEntityCtx, level);
+            _gamePlayEntity = new GamePlayEntity(gamePlayEntityContext, level);
             AddUnsafe(_gamePlayEntity);
         }
         

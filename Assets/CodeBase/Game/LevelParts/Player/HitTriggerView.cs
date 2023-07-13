@@ -8,23 +8,23 @@ namespace CodeBase.Game.LevelParts.Player
 {
     public class HitTriggerView : MonoBehaviour
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveTrigger hit;
         }
 
-        private Ctx _ctx;
+        private Context _context;
     
-        public void SetMain(Ctx ctx)
+        public void Init(Context context)
         {
-            _ctx = ctx;
+            _context = context;
         }
 
         private async void OnTriggerEnter(Collider other)
         {
             var target = other.GetComponent<IBatTarget>();
             if (target == null) return;
-            _ctx.hit.Notify();
+            _context.hit.Notify();
             await UniTask.Delay(200);
             target.HitByBat(transform);
         }

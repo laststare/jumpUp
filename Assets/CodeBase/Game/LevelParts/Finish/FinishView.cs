@@ -7,19 +7,19 @@ namespace CodeBase.Game.LevelParts.Finish
 {
     public class FinishView : MonoBehaviour, ITrigger
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveProperty<Transform> player;
             public IReactiveProperty<GameState> gameState;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         [SerializeField]
         private GameObject[] conf;
         private bool entered;
-        public void SetMain(Ctx Ctx)
+        public void Init(Context context)
         {
-            _ctx = Ctx;
+            _context = context;
         }
         
 

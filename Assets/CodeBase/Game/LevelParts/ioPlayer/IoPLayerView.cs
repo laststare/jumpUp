@@ -13,7 +13,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 {
     public class IoPLayerView : Human, IJumper, IFinish, IBatTarget
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveProperty<NavMeshAgent> _agent;
             public ReactiveProperty<Transform> ioplayer;
@@ -33,7 +33,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             public ReactiveTrigger MakeSmallJump;
         }
 
-        private Ctx      _ctx;
+        private Context _context;
         public  ioPlayerType type;
         private NavMeshAgent _agent;
         private bool _batHited, _isAlive;
@@ -48,32 +48,32 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         private static readonly int Jump = Animator.StringToHash("smallJump");
         private static readonly int Dance = Animator.StringToHash("dance");
 
-        public void SetMain(Ctx ctx)
+        public void Init(Context context)
         {
-            _ctx = ctx;
+            _context = context;
             AtStart();
             smallJumpSpeed = 4;
             _agent = GetComponent<NavMeshAgent>();
             _col = GetComponent<CapsuleCollider>();
-            _ctx._agent.Value = _agent;
+            _context._agent.Value = _agent;
             _agent.avoidancePriority = Random.RandomRange(10, 90);
             highJumpSpeed = 10.55f;
-            _ctx.mask.Value = mask;
-            _ctx.maskUpper.Value = maskUpper;
-            _ctx.rayPlace.Value = rayPlace;
-            _ctx.ioplayer.Value = transform;
-            _ctx._name.Value = nameCanvas;
+            _context.mask.Value = mask;
+            _context.maskUpper.Value = maskUpper;
+            _context.rayPlace.Value = rayPlace;
+            _context.ioplayer.Value = transform;
+            _context._name.Value = nameCanvas;
 
-            _ctx.startRun.Subscribe(startRun).AddTo(this);
+            _context.startRun.Subscribe(StartRun).AddTo(this);
             _grounded = new ReactiveProperty<bool>();
             _grounded.ObserveEveryValueChanged(x => x.Value).Subscribe(x => CheckGround(x)).AddTo(this);
            
             moveBlocker = true;
             type = ioPlayerType.best;
-            skin.material = _ctx.skinMat;
-            _ctx.leader.SubscribeWithSkip(x => CheckLeader(x));
-            _ctx.players.Value.Add(transform);
-            _ctx.MakeSmallJump.Subscribe(() => DoJump(JumperType.light));
+            skin.material = _context.skinMat;
+            _context.leader.SubscribeWithSkip(x => CheckLeader(x));
+            _context.players.Value.Add(transform);
+            _context.MakeSmallJump.Subscribe(() => DoJump(JumperType.light));
             
         }
 
@@ -115,7 +115,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                     if (_isAlive && transform.position.y < -10)
                     {
                         _isAlive = false;
-                        _ctx.die.Notify();
+                        _context.die.Notify();
                     }
 
                     _grounded.Value = myCharacterController.isGrounded;
@@ -141,7 +141,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 
         private void Searcher(Transform part)
         {
-            if (part == null && _agent.enabled) DoJump(JumperType.light);
+            if (part == null && _agent != null && _agent.enabled) DoJump(JumperType.light);
         }
 
         private void CheckGround(bool isgrounded)
@@ -151,16 +151,16 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             {             
                 _agent.enabled = true;
                 moveBlocker = true;
-                _ctx.grounded.Notify();
+                _context.grounded.Notify();
             }
         }
 
-        private void startRun()
+        private void StartRun()
         {
             anim.SetTrigger(Go);
             _isAlive = true;
             PlayersMove();
-            _ctx.smallJumpSearcher.Subscribe(x => Searcher(x)).AddTo(this);
+            _context.smallJumpSearcher.Subscribe(Searcher).AddTo(this);
         }
 
         public void DoJump(JumperType type)
@@ -205,7 +205,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             var hitColliders = Physics.OverlapSphere(transform.position, 15);
             if (hitColliders.Length > 0)
             {
-                float l = Mathf.Infinity;
+                var l = Mathf.Infinity;
                 Transform near = null;
                 switch (type)
                 {
@@ -270,7 +270,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 
         public void DoFinish()
         {
-            _ctx.finish.Notify();
+            _context.finish.Notify();
             _agent.enabled = false;
             myCharacterController.enabled = false;
             anim.SetTrigger(Dance);
@@ -289,9 +289,6 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             rigi.AddForce((hitter.forward + new Vector3(0,0.2f,0)) * 1200, ForceMode.Impulse);
         }
 
-        private void OnDisable()
-        {
-            _isAlive = false;
-        }
+        private void OnDisable() => _isAlive = false;
     }
 }

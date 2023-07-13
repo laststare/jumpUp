@@ -6,7 +6,7 @@ namespace CodeBase.Game.LevelParts.Finish
 {
     public class FinishEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveProperty<Transform> player;
             public FinishView view;
@@ -14,20 +14,20 @@ namespace CodeBase.Game.LevelParts.Finish
         }
 
 
-        private readonly Ctx _ctx;
+        private readonly Context _context;
         private readonly FinishView _view;
 
-        public FinishEntity(Ctx ctx, Vector3 finishPlace)
+        public FinishEntity(Context context, Vector3 finishPlace)
         {
-            _ctx = ctx;
-            _view = Object.Instantiate(_ctx.view);
+            _context = context;
+            _view = Object.Instantiate(_context.view);
             _view.transform.position = finishPlace;
-            var finishViewCtx = new FinishView.Ctx()
+            var finishViewContext = new FinishView.Context()
             {
-                player = _ctx.player,
-                gameState = _ctx.gameState,
+                player = _context.player,
+                gameState = _context.gameState,
             };
-            _view.SetMain(finishViewCtx);
+            _view.Init(finishViewContext);
         }
 
 

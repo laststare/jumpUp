@@ -10,7 +10,7 @@ namespace CodeBase.Control
 {
     public class ControlEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveProperty<GameState> gameState;
             public ReactiveEvent<Vector2> moveCoordinates;
@@ -20,29 +20,29 @@ namespace CodeBase.Control
             public IContent content;
         }
         
-        private Ctx _ctx;
+        private Context _context;
         private ClickInputView _clickInputView;
 
 
-        public ControlEntity(Ctx ctx)
+        public ControlEntity(Context context)
         {
-            _ctx = ctx;
+            _context = context;
             CreateViews();
         }
 
         private void CreateViews()
         {
-            var fingerCtx = new FingersJoystickScript.Ctx()
+            var fingerContext = new FingersJoystickScript.Context()
             {
-                moveCoordinates = _ctx.moveCoordinates,
-                gameState = _ctx.gameState
+                moveCoordinates = _context.moveCoordinates,
+                gameState = _context.gameState
             };
-            _ctx.controll.SetMain(fingerCtx);
+            _context.controll.Init(fingerContext);
             
-            _clickInputView = Object.Instantiate(_ctx.content.GetClickInputView(), _ctx.uiCanvas);
-            _clickInputView .SetMain(new ClickInputView.Ctx()
+            _clickInputView = Object.Instantiate(_context.content.GetClickInputView(), _context.uiCanvas);
+            _clickInputView .Init(new ClickInputView.Context()
             {      
-                onClick = _ctx.onClick,
+                onClick = _context.onClick,
             });
         }
     }

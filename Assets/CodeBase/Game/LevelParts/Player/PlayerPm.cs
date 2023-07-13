@@ -9,7 +9,7 @@ namespace CodeBase.Game.LevelParts.Player
 {
     public class PlayerPm : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IContent content;
             public ReactiveProperty<Transform> player;
@@ -32,7 +32,7 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<LayerMask> maskUpper;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         private readonly float _speed = 2.5f;
         private readonly float sideStep = 0.1f;
         private Vector3 _moveDirection;
@@ -44,22 +44,22 @@ namespace CodeBase.Game.LevelParts.Player
         private bool _canDelete;
         private List<Vector3> _sides;
         private Transform _name;
-        public PlayerPm(Ctx ctx)
+        public PlayerPm(Context context)
         {
-            _ctx = ctx;
-            AddUnsafe(_ctx.player.Subscribe(GetPlayer));
-            AddUnsafe(_ctx.gameState.Subscribe(GameStateReceiver));
-            AddUnsafe(_ctx.die.Subscribe(Die));
-            AddUnsafe(_ctx.moveCoordinates.Subscribe(GetCoordinates));
-            AddUnsafe(_ctx.finish.Subscribe(Finish));
-            AddUnsafe(_ctx._name.Subscribe(GetName));
+            _context = context;
+            AddUnsafe(_context.player.Subscribe(GetPlayer));
+            AddUnsafe(_context.gameState.Subscribe(GameStateReceiver));
+            AddUnsafe(_context.die.Subscribe(Die));
+            AddUnsafe(_context.moveCoordinates.Subscribe(GetCoordinates));
+            AddUnsafe(_context.finish.Subscribe(Finish));
+            AddUnsafe(_context._name.Subscribe(GetName));
         }
 
         private void GetPlayer(Transform player)
         {
             if (player == null) return;
             _playerTr = player;
-            _playerTr.position = _ctx.Level.playersPosiiton;
+            _playerTr.position = _context.Level.playersPosiiton;
             SeePlayer();
         }
 
@@ -71,21 +71,21 @@ namespace CodeBase.Game.LevelParts.Player
             {
                 await UniTask.Yield();
             }
-            Object.Destroy(_ctx.endlessSignTutor.Value);
-            _ctx.startRun.Notify();
+            Object.Destroy(_context.endlessSignTutor.Value);
+            _context.startRun.Notify();
             _canDelete = true;
         }
 
         private void Move(Vector2 moveCoordinates)
         {
             RayCasting();
-            if (_ctx.gameState.Value != GameState.PLAY) return;
+            if (_context.gameState.Value != GameState.PLAY) return;
             _moveDirection = new Vector3(moveCoordinates.x, 0, moveCoordinates.y);
             _moveDirection = _playerTr.TransformDirection(_moveDirection);
             _moveDirection *= _speed;
             _moveDirection.y -= 20 * Time.deltaTime;
 
-            _ctx.moveDirection.Value = _moveDirection;
+            _context.moveDirection.Value = _moveDirection;
 
             var h = moveCoordinates.x;
             var v = moveCoordinates.y;
@@ -112,7 +112,7 @@ namespace CodeBase.Game.LevelParts.Player
                     if (_hit.transform.gameObject.layer == 8 && _hit.transform != _playerTr && _hit.transform.gameObject != _tmpObj)
                     {
                         _tmpObj = _hit.transform.gameObject;
-                        if (_canDelete) _ctx.floorPart.Notify(_tmpObj);
+                        if (_canDelete) _context.floorPart.Notify(_tmpObj);
                     }
                 }
                 Debug.DrawRay(side, Vector3.down, Color.red);
@@ -121,20 +121,20 @@ namespace CodeBase.Game.LevelParts.Player
 
             if (Physics.Raycast(_playerTr.position, Vector3.up, out _hit, 2, _maskUpper))
             {
-                _ctx.roofPart.Notify(_hit.transform.gameObject);
+                _context.roofPart.Notify(_hit.transform.gameObject);
             }
 
             ////looking for holes
             if (Physics.Raycast(_rayPlace.position, Vector3.down, out _hitFront, 2))
             {
-                _ctx.smallJumpSearcher.Value = _hitFront.transform;
+                _context.smallJumpSearcher.Value = _hitFront.transform;
             }
-            else _ctx.smallJumpSearcher.Value = null;
+            else _context.smallJumpSearcher.Value = null;
         }
              
-        private void Die() => _ctx.gameState.Value = GameState.GAMEOVER;
+        private void Die() => _context.gameState.Value = GameState.GAMEOVER;
 
-        private void Finish() => _ctx.gameState.Value = GameState.FINISH;
+        private void Finish() => _context.gameState.Value = GameState.FINISH;
 
         private void GameStateReceiver(GameState state)
         {
@@ -142,15 +142,15 @@ namespace CodeBase.Game.LevelParts.Player
             {
                 case GameState.PLAY:
 
-                    _playerBody = _ctx.playerBody.Value;
-                    _rayPlace = _ctx.rayPlace.Value;
-                    _mask = _ctx.mask.Value;
-                    _maskUpper = _ctx.maskUpper.Value;
+                    _playerBody = _context.playerBody.Value;
+                    _rayPlace = _context.rayPlace.Value;
+                    _mask = _context.mask.Value;
+                    _maskUpper = _context.maskUpper.Value;
                     WaitTouch();
-                    AddUnsafe(_ctx.moveCoordinates.Subscribe(x => Move(x)));
+                    AddUnsafe(_context.moveCoordinates.Subscribe(x => Move(x)));
                     break;
                 case GameState.GAMEOVER:
-                    Object.Destroy(_ctx.endlessSignTutor.Value);
+                    Object.Destroy(_context.endlessSignTutor.Value);
                     MoveWithOutControl();
                     break;
             }
@@ -158,14 +158,14 @@ namespace CodeBase.Game.LevelParts.Player
 
         private async void MoveWithOutControl()
         {
-            while (_ctx.gameState.Value == GameState.GAMEOVER)
+            while (_context.gameState.Value == GameState.GAMEOVER)
             {
                 _moveDirection =   Vector3.zero;
                 _moveDirection = _playerTr.TransformDirection(_moveDirection);
                 _moveDirection *= _speed;
                 _moveDirection.y -= 20 * Time.deltaTime;
                 
-                _ctx.moveDirection.Value = _moveDirection;
+                _context.moveDirection.Value = _moveDirection;
                 await UniTask.Yield();
             }
         }
@@ -174,7 +174,7 @@ namespace CodeBase.Game.LevelParts.Player
         {
             await UniTask.Delay(1500);
             _playerTr.gameObject.SetActive(true);
-            AddUnsafe(_ctx.camera.Subscribe(x => GetCamera(x)));
+            AddUnsafe(_context.camera.Subscribe(x => GetCamera(x)));
         }
 
         private void GetName(Transform view) => _name = view;

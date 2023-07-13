@@ -10,7 +10,7 @@ namespace CodeBase.Game.LevelParts.Player
 {
     public class PlayerView : Human, IFinish, IJumper, IBatHolder
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveProperty<Transform> playerBody;
             public IReadOnlyReactiveProperty<Vector3> moveDirection;
@@ -29,7 +29,7 @@ namespace CodeBase.Game.LevelParts.Player
             public ReactiveProperty<LayerMask> maskUpper;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         private ReactiveProperty<bool> grounded;
         private NavMeshAgent agent;
         [SerializeField]
@@ -48,33 +48,33 @@ namespace CodeBase.Game.LevelParts.Player
         private static readonly int Jump = Animator.StringToHash("smallJump");
         private static readonly int Hit = Animator.StringToHash("hit");
 
-        public void SetMain(Ctx Ctx)
+        public void Init(Context Context)
         {
-            _ctx = Ctx;
+            _context = Context;
             AtStart();
             smallJumpSpeed = 2f;
             agent = GetComponent<NavMeshAgent>();
-            _ctx.mask.Value = mask;
-            _ctx.maskUpper.Value = maskUpper;
-            _ctx.player.Value = transform;
-            _ctx.playerBody.Value = body;
-            _ctx.rayPlace.Value = rayPlace;
-            _ctx._name.Value = nameCanvas;
-            _ctx.startRun.Subscribe(startRun).AddTo(this);
-            _ctx.smallJumpSearcher.Subscribe(Searcher).AddTo(this);
+            _context.mask.Value = mask;
+            _context.maskUpper.Value = maskUpper;
+            _context.player.Value = transform;
+            _context.playerBody.Value = body;
+            _context.rayPlace.Value = rayPlace;
+            _context._name.Value = nameCanvas;
+            _context.startRun.Subscribe(startRun).AddTo(this);
+            _context.smallJumpSearcher.Subscribe(Searcher).AddTo(this);
             grounded = new ReactiveProperty<bool>();
             grounded.ObserveEveryValueChanged(x => x.Value).Subscribe(CheckGround).AddTo(this);
-            _ctx.leader.SubscribeWithSkip(CheckLeader);
-            _ctx.players.Value.Add(transform);
+            _context.leader.SubscribeWithSkip(CheckLeader);
+            _context.players.Value.Add(transform);
 
             hit = new ReactiveTrigger();
 
-            var hitTriggerEntityCtx = new HitTriggerEntity.Ctx()
+            var hitTriggerEntityContext = new HitTriggerEntity.Context()
             { 
                 hitTriggerView = hitTriggerView,
                 hit = hit
             };
-            hitTriggerEntity = new HitTriggerEntity(hitTriggerEntityCtx);
+            hitTriggerEntity = new HitTriggerEntity(hitTriggerEntityContext);
 
             hit.Subscribe(HitAnimPlay).AddTo(this);
     }
@@ -111,7 +111,7 @@ namespace CodeBase.Game.LevelParts.Player
             if (alive && transform.position.y < -10)
             {
                 alive = false;
-                _ctx.die.Notify();
+                _context.die.Notify();
             }
 
             grounded.Value = myCharacterController.isGrounded;
@@ -129,12 +129,12 @@ namespace CodeBase.Game.LevelParts.Player
         private void startRun()
         {
             anim.SetTrigger(Go);
-            _ctx.moveDirection.Subscribe(x => PlayersMove(x)).AddTo(this);
+            _context.moveDirection.Subscribe(x => PlayersMove(x)).AddTo(this);
         }
 
         public void DoFinish()
         {
-            _ctx.finish.Notify();
+            _context.finish.Notify();
             anim.SetTrigger(Dance);
         }
 
@@ -153,9 +153,9 @@ namespace CodeBase.Game.LevelParts.Player
                     BoostSpeed(10f, 40);
                     anim.SetBool(Rocket, false);
                     ActivateTrail(2000);
-                    _ctx.shake.Notify(0.5f);
+                    _context.shake.Notify(0.5f);
                     waitingShake = true;
-                    _ctx.flyup.Notify(true);
+                    _context.flyup.Notify(true);
                     break;
                 case JumperType.light:
                     SmallJump = true;
@@ -167,9 +167,9 @@ namespace CodeBase.Game.LevelParts.Player
                     BoostSpeed(5f, 500);
                     ShowRocketPack();
                     anim.SetBool(Rocket, true);
-                    _ctx.shake.Notify(0.5f);
+                    _context.shake.Notify(0.5f);
                     waitingShake = true;
-                    _ctx.flyup.Notify(true);
+                    _context.flyup.Notify(true);
                     break;
                 case JumperType.oldCell:
                     downJump = true;
@@ -180,9 +180,9 @@ namespace CodeBase.Game.LevelParts.Player
         private void CheckGround(bool isGrounded)
         {
             if (!isGrounded || !waitingShake) return;
-            _ctx.shake.Notify(0.5f);
+            _context.shake.Notify(0.5f);
             waitingShake = false;
-            _ctx.flyup.Notify(false);
+            _context.flyup.Notify(false);
         }
 
         private async void HitAnimPlay()

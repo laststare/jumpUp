@@ -10,17 +10,17 @@ namespace CodeBase.UI
     {
         [SerializeField]
         private Text centralText;
-        public struct Ctx
+        public struct Context
         {
             public IReactiveProperty<GameState> gameState;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         
-        public void SetMain(Ctx ctx)
+        public void Init(Context context)
         {
-            _ctx = ctx;
-            _ctx.gameState.Subscribe(ReactGameState).AddTo(this);
+            _context = context;
+            _context.gameState.Subscribe(ReactGameState).AddTo(this);
         }
 
         private void ReactGameState(GameState _state)

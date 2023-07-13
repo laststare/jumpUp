@@ -8,20 +8,20 @@ namespace CodeBase.UI
 {
     public class WinTextView : MonoBehaviour
     {
-        public struct Ctx
+        public struct Context
         {
             public IReactiveProperty<GameState> gameState;
 
         }
 
-        private Ctx _ctx;
+        private Context _context;
         [SerializeField]
         private Text winnerText;
         
-        public void SetMain(Ctx ctx)
+        public void Init(Context context)
         {
-            _ctx = ctx;
-            _ctx.gameState.Subscribe(ShowView);
+            _context = context;
+            _context.gameState.Subscribe(ShowView);
         }
 
         private void ShowView(GameState state)

@@ -4,14 +4,14 @@ namespace CodeBase.Game.LevelParts.Jumper
 {
     public class JumperPm : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
         }
 
-        private Ctx _ctx;
-        public JumperPm(Ctx ctx)
+        private Context _context;
+        public JumperPm(Context context)
         {
-            _ctx = ctx;
+            _context = context;
         }
 
 

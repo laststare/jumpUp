@@ -5,7 +5,7 @@ namespace CodeBase.Game
 {
     public class GameCyclePm : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IReactiveProperty<GameState> GameState;
             public IReadOnlyReactiveTrigger OnClick;
@@ -15,14 +15,14 @@ namespace CodeBase.Game
         }
 
 
-        private readonly Ctx  _ctx;
+        private readonly Context  _context;
         private GameState  _currenGameState;
 
-        public GameCyclePm(Ctx ctx)
+        public GameCyclePm(Context context)
         {
-            _ctx = ctx;
-            AddUnsafe(ctx.GameState.Subscribe(x => _currenGameState = x));
-            AddUnsafe(_ctx.OnClick.Subscribe(GetClick));
+            _context = context;
+            AddUnsafe(context.GameState.Subscribe(x => _currenGameState = x));
+            AddUnsafe(_context.OnClick.Subscribe(GetClick));
         }
 
 
@@ -31,13 +31,13 @@ namespace CodeBase.Game
             switch (_currenGameState)
             {
                 case GameState.START:
-                        _ctx.GameState.Value = _ctx.needStartTutor.Value? GameState.STARTTUTOR : GameState.COUNTER;
+                        _context.GameState.Value = _context.needStartTutor.Value? GameState.STARTTUTOR : GameState.COUNTER;
                     break;
                 case GameState.FINISH:
-                       _ctx.Finish.Notify();
+                       _context.Finish.Notify();
                     break;
                 case GameState.GAMEOVER:
-                      _ctx.GameOver.Notify();
+                      _context.GameOver.Notify();
                     break;
             }
         }

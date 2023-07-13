@@ -9,7 +9,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 {
     public class IoPLayerEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IReactiveProperty<GameState> gameState;
             public IoPLayerView view;
@@ -25,7 +25,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             public ReactiveProperty<string> winnerName;
         }
         
-        private Ctx _ctx;
+        private Context _context;
         private IoPLayerView _view;
         private PlayersNameView _nameView;
         private IoPLayerPm _pm;
@@ -43,9 +43,9 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         private readonly ReactiveProperty<NavMeshAgent> _agent;
         private readonly ReactiveProperty<Transform> _name;
 
-        public IoPLayerEntity(Ctx ctx)
+        public IoPLayerEntity(Context context)
         {
-            _ctx = ctx;
+            _context = context;
   
             _die = new ReactiveTrigger();
             _finish = new ReactiveTrigger();
@@ -60,32 +60,32 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             _grounded = new ReactiveTrigger();
             _name = new ReactiveProperty<Transform>();
 
-           _view = Object.Instantiate(_ctx.view, _ctx._ioPlayer.position, _ctx._ioPlayer.rotation);
-            var ioPlayerPmCtx = new IoPLayerPm.Ctx()
+           _view = Object.Instantiate(_context.view, _context._ioPlayer.position, _context._ioPlayer.rotation);
+            var ioPlayerPmContext = new IoPLayerPm.Context()
             {
-                gameState = _ctx.gameState,
+                gameState = _context.gameState,
                 _agent = _agent,
                 ioplayer = _ioplayer,
                 rayPlace = _rayPlace,
                 mask = _mask,
-                roofPart = _ctx.roofPart,
-                floorPart = _ctx.floorPart,
+                roofPart = _context.roofPart,
+                floorPart = _context.floorPart,
                 startRun = _startRun,
                 grounded = _grounded,
                 smallJumpSearcher = _smallJumpSearcher,
                 finish = _finish,
                 _nameView = _name,
                 die = _die,
-                camera = _ctx.camera,
-                ioName = _ctx.ioName,
+                camera = _context.camera,
+                ioName = _context.ioName,
                 maskUpper = _maskUpper,
-                winnerName = _ctx.winnerName,
+                winnerName = _context.winnerName,
 
             };
-            _pm = new IoPLayerPm(ioPlayerPmCtx);
+            _pm = new IoPLayerPm(ioPlayerPmContext);
             AddUnsafe(_pm);
 
-            var ioPlayerViewCtx = new IoPLayerView.Ctx()
+            var ioPlayerViewContext = new IoPLayerView.Context()
             {
                 _agent = _agent,
                 ioplayer = _ioplayer,
@@ -95,16 +95,16 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                 grounded = _grounded,
                 smallJumpSearcher = _smallJumpSearcher,
                 finish = _finish,
-                levelIndex = _ctx.levelIndex,
+                levelIndex = _context.levelIndex,
                 die = _die,
                 _name = _name,
-                skinMat = _ctx.skinMat,
-                leader = _ctx.leader,
-                players = _ctx.players,
+                skinMat = _context.skinMat,
+                leader = _context.leader,
+                players = _context.players,
                 maskUpper = _maskUpper,
                 MakeSmallJump = _makeSmallJump
             };
-            _view.SetMain(ioPlayerViewCtx);
+            _view.Init(ioPlayerViewContext);
         }
 
         protected override void OnDispose()

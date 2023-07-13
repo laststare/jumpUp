@@ -36,7 +36,7 @@ namespace CodeBase.Content
 
     public class ContentLoader : BaseDisposable, IContent
     {
-        public struct Ctx
+        public struct Context
         {
             public PrefabsInfo Prefabs;
         }
@@ -48,10 +48,10 @@ namespace CodeBase.Content
         private List<Material> _skins;
         private string[] _names;
 
-        public ContentLoader(Ctx ctx)
+        public ContentLoader(Context context)
         {
             _levels = Resources.LoadAll<LevelContainer>("Levels");
-            _prefabs = ctx.Prefabs;
+            _prefabs = context.Prefabs;
             _glass = Resources.Load<Material>("CubeOpacityMat");
             _white = Resources.Load<Material>("cubeWhiteMat");
             _manMaterials = Resources.LoadAll<Material>("ManMaterials");

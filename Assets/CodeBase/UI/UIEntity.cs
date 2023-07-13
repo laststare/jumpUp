@@ -9,7 +9,7 @@ namespace CodeBase.UI
 {
     public class UIEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public Transform uiCanvas;
             public IContent content;
@@ -18,27 +18,27 @@ namespace CodeBase.UI
             public ReactiveProperty<GameObject> endlessSignTutor;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         private UIpm _pm;
 
-        public UIEntity(Ctx ctx)
+        public UIEntity(Context context)
         {
-            _ctx = ctx;
+            _context = context;
 
             CreatePm();
         }
 
         private void CreatePm()
         {
-            var uiPmCtx = new UIpm.Ctx()
+            var uiPmContext = new UIpm.Context()
             {
-                content = _ctx.content,
-                uiCanvas = _ctx.uiCanvas,
-                gameState = _ctx.gameState,
-                countingIsOver = _ctx.countingIsOver,
-                endlessSignTutor = _ctx.endlessSignTutor
+                content = _context.content,
+                uiCanvas = _context.uiCanvas,
+                gameState = _context.gameState,
+                countingIsOver = _context.countingIsOver,
+                endlessSignTutor = _context.endlessSignTutor
             };
-            _pm = new UIpm(uiPmCtx);
+            _pm = new UIpm(uiPmContext);
             AddUnsafe(_pm);
         }
     }

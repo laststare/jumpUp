@@ -10,7 +10,7 @@ using UnityEngine;
 namespace CodeBase.Game {
     public class GamePlayEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IContent contentLoader;
             public IReactiveProperty<GameState> gameState; 
@@ -38,11 +38,11 @@ namespace CodeBase.Game {
         private readonly ReactiveProperty<List<Transform>> _players = new ReactiveProperty<List<Transform>>(new List<Transform>());
         private readonly ReactiveEvent<Transform> _leader = new ReactiveEvent<Transform>();
 
-        private readonly Ctx _ctx;
-        public GamePlayEntity(Ctx ctx, Level level)
+        private readonly Context _context;
+        public GamePlayEntity(Context context, Level level)
         {
-            _ctx = ctx;
-            AddUnsafe(_ctx.destroy.Subscribe(DestroyEverything));
+            _context = context;
+            AddUnsafe(_context.destroy.Subscribe(DestroyEverything));
             CreatePlayerEntity(level);
             CreateLevelEntity(level);
             CreateCameraEntity();
@@ -53,37 +53,37 @@ namespace CodeBase.Game {
 
         private void CreateLevelEntity(Level level)
         {
-            var levelEntityCtx = new LevelEntity.Ctx
+            var levelEntityContext = new LevelEntity.Context
             {
-                content = _ctx.contentLoader,
-                gameState = _ctx.gameState,
+                content = _context.contentLoader,
+                gameState = _context.gameState,
                 Level = level,
-                player = _ctx.player,
+                player = _context.player,
                 floorPart = _floorPart,
                 roofPart = _roofPart,
-                blocksContainer = _ctx.blocksContainer,
-                destroy = _ctx.destroy,
-                levelIndex = _ctx.levelIndex,
+                blocksContainer = _context.blocksContainer,
+                destroy = _context.destroy,
+                levelIndex = _context.levelIndex,
                 camera = _camera,
                 players = _players,
                 leader = _leader,
-                winnerName = _ctx.winnerName,
-                playersRacePlace = _ctx.playersRacePlace
+                winnerName = _context.winnerName,
+                playersRacePlace = _context.playersRacePlace
             };
-            _levelEntity = new LevelEntity(levelEntityCtx);
+            _levelEntity = new LevelEntity(levelEntityContext);
             AddUnsafe(_levelEntity);
         }
 
         private void CreatePlayerEntity(Level level)
         {
-            var playerEntityCtx = new PlayerEntity.Ctx
+            var playerEntityContext = new PlayerEntity.Context
             {
-                content = _ctx.contentLoader,
-                moveCoordinates = _ctx.moveCoordinates,
-                player = _ctx.player,
-                gameState = _ctx.gameState,
+                content = _context.contentLoader,
+                moveCoordinates = _context.moveCoordinates,
+                player = _context.player,
+                gameState = _context.gameState,
                 Level = level,
-                endlessSignTutor = _ctx.endlessSignTutor,
+                endlessSignTutor = _context.endlessSignTutor,
                 floorPart = _floorPart,
                 roofPart = _roofPart,
                 shake = _shake,
@@ -91,26 +91,26 @@ namespace CodeBase.Game {
                 camera = _camera,
                 players = _players,
                 leader = _leader,
-                startRun = _ctx.startRun,
+                startRun = _context.startRun,
             };
-            _playerEntity = new PlayerEntity(playerEntityCtx);
+            _playerEntity = new PlayerEntity(playerEntityContext);
             AddUnsafe(_playerEntity);
         }
 
         private void CreateCameraEntity()
         {
-            var cameraEntityCtx = new CameraEntity.Ctx
+            var cameraEntityContext = new CameraEntity.Context
             {
-                content = _ctx.contentLoader,
-                player = _ctx.player,
-                gameState = _ctx.gameState,
+                content = _context.contentLoader,
+                player = _context.player,
+                gameState = _context.gameState,
                 shake = _shake,
                 flyup = _flyUp,
                 camera = _camera,
-                needStartTutor = _ctx.needStartTutor,
-                uiCanvas = _ctx.uiCanvas
+                needStartTutor = _context.needStartTutor,
+                uiCanvas = _context.uiCanvas
             };
-            _cameraEntity = new CameraEntity(cameraEntityCtx);
+            _cameraEntity = new CameraEntity(cameraEntityContext);
             AddUnsafe(_cameraEntity);
         }
 

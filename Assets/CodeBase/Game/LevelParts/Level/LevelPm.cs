@@ -14,7 +14,7 @@ namespace CodeBase.Game.LevelParts.Level
 {
     public class LevelPm : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IContent content;
             public IReactiveProperty<GameState> gameState;
@@ -33,36 +33,36 @@ namespace CodeBase.Game.LevelParts.Level
         }
 
 
-        private readonly Ctx _ctx;
+        private readonly Context _context;
         private readonly Material _glass;
         private readonly Material _white;
         private bool _isAlive;
 
-        public LevelPm(Ctx ctx)
+        public LevelPm(Context context)
         {
-            _ctx = ctx;
-            _ctx.content.ResetLevel();
+            _context = context;
+            _context.content.ResetLevel();
             SpawnRockets();
             SpawnFinish();
             SpawnFloors();
             SpawnIoPlayers();
-            AddUnsafe(_ctx.floorPart.SubscribeWithSkip(DeleteFloorPart));
-            AddUnsafe(_ctx.roofPart.SubscribeWithSkip(DeleteRoofPart));
-            AddUnsafe(_ctx.destroy.Subscribe(DestCells));
-            _glass = _ctx.content.GetGlassMat();
-            _white = _ctx.content.GetWhiteMat();
-            AddUnsafe(_ctx.gameState.Subscribe(GameStateReceiver));
+            AddUnsafe(_context.floorPart.SubscribeWithSkip(DeleteFloorPart));
+            AddUnsafe(_context.roofPart.SubscribeWithSkip(DeleteRoofPart));
+            AddUnsafe(_context.destroy.Subscribe(DestCells));
+            _glass = _context.content.GetGlassMat();
+            _white = _context.content.GetWhiteMat();
+            AddUnsafe(_context.gameState.Subscribe(GameStateReceiver));
         }
 
         private void SpawnRockets()
         {
-            foreach (var jumperEntity in _ctx.Level.jumprs.Select(jumper => new JumperEntity.Ctx()
+            foreach (var jumperEntity in _context.Level.jumprs.Select(jumper => new JumperEntity.Context()
                      {
                          jumper = jumper,
-                         view = _ctx.content.GetJumper(jumper.type),
-                         blocksContainer = _ctx.blocksContainer,
-                         emptyCell = _ctx.content.GetEmptyCell().gameObject
-                     }).Select(jumperEntityCtx => new JumperEntity(jumperEntityCtx)))
+                         view = _context.content.GetJumper(jumper.type),
+                         blocksContainer = _context.blocksContainer,
+                         emptyCell = _context.content.GetEmptyCell().gameObject
+                     }).Select(jumperEntityContext => new JumperEntity(jumperEntityContext)))
             {
                 AddUnsafe(jumperEntity);
             }
@@ -70,14 +70,14 @@ namespace CodeBase.Game.LevelParts.Level
 
         private void SpawnFinish()
         {
-            var finishEntityCtx = new FinishEntity.Ctx()
+            var finishEntityContext = new FinishEntity.Context()
             {
-                player = _ctx.player,
-                view = _ctx.content.GetFinish().GetComponent<FinishView>(),
-                gameState = _ctx.gameState,
+                player = _context.player,
+                view = _context.content.GetFinish().GetComponent<FinishView>(),
+                gameState = _context.gameState,
 
             };
-            var finishEntity = new FinishEntity(finishEntityCtx, _ctx.Level.finishPosiiton);
+            var finishEntity = new FinishEntity(finishEntityContext, _context.Level.finishPosiiton);
             AddUnsafe(finishEntity);
         }
 
@@ -85,10 +85,10 @@ namespace CodeBase.Game.LevelParts.Level
         {
             var startPoint = Vector3.zero;
             var l = 0;
-            foreach (var floor in _ctx.Level.floors)
+            foreach (var floor in _context.Level.floors)
             {
                 startPoint = PointerOffset(floor.FloorType, startPoint);
-                MakeFloorCells(floor, _ctx.Level._container.CellCount(floor.FloorType), startPoint, l == _ctx.Level.floors.Count - 1);
+                MakeFloorCells(floor, _context.Level._container.CellCount(floor.FloorType), startPoint, l == _context.Level.floors.Count - 1);
                 startPoint = new Vector3(startPoint.x, startPoint.y + 15, startPoint.z);
                 l++;
             }
@@ -96,24 +96,24 @@ namespace CodeBase.Game.LevelParts.Level
 
         private void SpawnIoPlayers()
         {
-            foreach (var player in _ctx.Level.ioplayers)
+            foreach (var player in _context.Level.ioplayers)
             {
-                var ioPlayerEntityCtx = new IoPLayerEntity.Ctx()
+                var ioPlayerEntityContext = new IoPLayerEntity.Context()
                 {
-                    gameState = _ctx.gameState,
-                    view = _ctx.content.GetIoPlayer(player.type),
+                    gameState = _context.gameState,
+                    view = _context.content.GetIoPlayer(player.type),
                     _ioPlayer = player,
-                    roofPart = _ctx.roofPart,
-                    floorPart = _ctx.floorPart,
-                    levelIndex = _ctx.levelIndex,
-                    camera = _ctx.camera,
-                    ioName = _ctx.content.GetIoName(),
-                    skinMat = _ctx.content.GetManMaterial(),
-                    players = _ctx.players,
-                    leader = _ctx.leader,
-                    winnerName = _ctx.winnerName
+                    roofPart = _context.roofPart,
+                    floorPart = _context.floorPart,
+                    levelIndex = _context.levelIndex,
+                    camera = _context.camera,
+                    ioName = _context.content.GetIoName(),
+                    skinMat = _context.content.GetManMaterial(),
+                    players = _context.players,
+                    leader = _context.leader,
+                    winnerName = _context.winnerName
                 };
-                var ioPlayerEntity = new IoPLayerEntity(ioPlayerEntityCtx);
+                var ioPlayerEntity = new IoPLayerEntity(ioPlayerEntityContext);
                 AddUnsafe(ioPlayerEntity);
             }
         }
@@ -121,28 +121,28 @@ namespace CodeBase.Game.LevelParts.Level
         private void MakeFloorCells(LevelContainer.Floor floor, int size, Vector3 startPoint, bool last)
         {
             var point = startPoint;
-            Object.Instantiate(_ctx.content.GetNavFloor(floor.FloorType), point, Quaternion.identity, _ctx.blocksContainer);
+            Object.Instantiate(_context.content.GetNavFloor(floor.FloorType), point, Quaternion.identity, _context.blocksContainer);
             for (var i = 0; i < size; i++)
             {
                 for (var j = 0; j < size; j++)
                 {
-                    var cell = _ctx.Level._container.GetCellInfo(floor, j, i, out int index);
+                    var cell = _context.Level._container.GetCellInfo(floor, j, i, out int index);
                     if (cell.type == CellType.simple)
                     {
-                       var c=  Object.Instantiate(_ctx.content.GetCell(floor.color), point, Quaternion.identity, _ctx.blocksContainer);
+                       var c=  Object.Instantiate(_context.content.GetCell(floor.color), point, Quaternion.identity, _context.blocksContainer);
                         if (last) c.layer = 11;
                     }
 
                     if (cell.type == CellType.empty)
-                        Object.Instantiate(_ctx.content.GetEmptyCell(), point, Quaternion.identity, _ctx.blocksContainer);
+                        Object.Instantiate(_context.content.GetEmptyCell(), point, Quaternion.identity, _context.blocksContainer);
                     if (cell.type == CellType.jumper)
                     {
-                        var jumperEntityCtx = new JumperEntity.Ctx()
+                        var jumperEntityContext = new JumperEntity.Context()
                         {
-                            view = _ctx.content.GetJumper(JumperType.medium),
+                            view = _context.content.GetJumper(JumperType.medium),
                             position = point
                         };
-                        var jumperEntity = new JumperEntity(jumperEntityCtx);
+                        var jumperEntity = new JumperEntity(jumperEntityContext);
                         AddUnsafe(jumperEntity);
                     }
                     point = new Vector3(point.x+1, point.y, point.z);
@@ -163,14 +163,14 @@ namespace CodeBase.Game.LevelParts.Level
         private async void ShowIO()
         {
             await UniTask.Delay(100);
-            var plCount = _ctx.players.Value.Count+1;
+            var plCount = _context.players.Value.Count+1;
             var interval = 3000 / plCount;
             var i = 0;
             while (i < plCount-1)
             {
                 await UniTask.Delay(interval);
-                var person = _ctx.players.Value[i];
-                if (person != _ctx.player.Value) person.gameObject.SetActive(true);
+                var person = _context.players.Value[i];
+                if (person != _context.player.Value) person.gameObject.SetActive(true);
                 i++;
             }
         }
@@ -210,7 +210,7 @@ namespace CodeBase.Game.LevelParts.Level
             if (!await Waiter(125)) return;
             try
             {
-                Object.Instantiate(_ctx.content.GetEmptyCell(), o.transform.position, Quaternion.identity, _ctx.blocksContainer);
+                Object.Instantiate(_context.content.GetEmptyCell(), o.transform.position, Quaternion.identity, _context.blocksContainer);
                 Object.Destroy(o.transform.parent.gameObject);
             }
             catch { };
@@ -241,7 +241,7 @@ namespace CodeBase.Game.LevelParts.Level
 
         private void DestCells()
         {
-            foreach (Transform child in _ctx.blocksContainer)
+            foreach (Transform child in _context.blocksContainer)
             {
                 Object.Destroy(child.gameObject);
             }
@@ -252,18 +252,18 @@ namespace CodeBase.Game.LevelParts.Level
             var leaders = new List<Leader>();
             while (_isAlive)
             {
-                foreach (var p in _ctx.players.Value)
+                foreach (var p in _context.players.Value)
                 {
-                    var d = Vector3.Distance(p.position, _ctx.Level.finishPosiiton);
+                    var d = Vector3.Distance(p.position, _context.Level.finishPosiiton);
                     leaders.Add(new Leader(p, d));
                 }
 
                 leaders = leaders.OrderBy(w => w.Dist).ToList();
-                _ctx.leader.Notify(leaders[0].Player);
+                _context.leader.Notify(leaders[0].Player);
                 for (var i = 0; i < leaders.Count; i++)
                 {
-                    if (leaders[i].Player == _ctx.player.Value)
-                        _ctx.playersRacePlace.Value = i + 1;            
+                    if (leaders[i].Player == _context.player.Value)
+                        _context.playersRacePlace.Value = i + 1;            
                 }
                 leaders.Clear();
                 await UniTask.Yield();

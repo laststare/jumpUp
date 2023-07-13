@@ -19,10 +19,9 @@ namespace CodeBase
 
         private void Start()
         {
-            
             MMVibrationManager.iOSInitializeHaptics();
             Application.targetFrameRate = 60;
-            _root = Root.CreateRoot(new Root.Ctx
+            _root = Root.CreateRoot(new Root.Context
             {
                 prefabs = prefabs,
                 controll = controll,

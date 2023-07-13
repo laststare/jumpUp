@@ -13,7 +13,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 {
     public class IoPLayerPm : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveProperty<Transform> smallJumpSearcher;
             public IReactiveProperty<GameState> gameState;
@@ -35,7 +35,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         }
 
 
-        private Ctx _ctx;
+        private Context _context;
         private float _speed = 2.5f;
         private readonly float _sideStep = 0.1f;
         private Transform _playerTr, _playerBody, _rayPlace;
@@ -52,17 +52,17 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         private Vector3 _nextpoint;
 
 
-        public IoPLayerPm(Ctx ctx)
+        public IoPLayerPm(Context context)
         {
-            _ctx = ctx;
+            _context = context;
             cancellation = new CancellationTokenSource();
-            AddUnsafe(_ctx.gameState.Subscribe(GameStateReciever));
-            AddUnsafe(_ctx.grounded.Subscribe(Grounded));
-            AddUnsafe(_ctx.finish.Subscribe(Finish));
-            AddUnsafe(_ctx.ioplayer.Subscribe(GetPlayer));
-            AddUnsafe(_ctx._nameView.Subscribe(GetName));
-            AddUnsafe(_ctx.die.Subscribe(Die));
-            AddUnsafe(_ctx.camera.Subscribe(GetCamera));
+            AddUnsafe(_context.gameState.Subscribe(GameStateReciever));
+            AddUnsafe(_context.grounded.Subscribe(Grounded));
+            AddUnsafe(_context.finish.Subscribe(Finish));
+            AddUnsafe(_context.ioplayer.Subscribe(GetPlayer));
+            AddUnsafe(_context._nameView.Subscribe(GetName));
+            AddUnsafe(_context.die.Subscribe(Die));
+            AddUnsafe(_context.camera.Subscribe(GetCamera));
         }
 
         private async void Raycasting()
@@ -82,7 +82,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                             if (_hit.transform.gameObject.layer == 8 && _hit.transform.gameObject != _tmpObj)
                             {
                                 _tmpObj = _hit.transform.gameObject;
-                                _ctx.floorPart.Notify(_tmpObj);
+                                _context.floorPart.Notify(_tmpObj);
                             }
                         }
                     }
@@ -91,20 +91,20 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                     if (Physics.Raycast(_playerTr.position, Vector3.up, out _hitUp, 5))
                     {
                     //Debug.LogError(hitUp.transform.gameObject);
-                    if (_hitUp.transform.gameObject.layer == 8) _ctx.roofPart.Notify(_hitUp.transform.gameObject);
+                    if (_hitUp.transform.gameObject.layer == 8) _context.roofPart.Notify(_hitUp.transform.gameObject);
                     }
                     Debug.DrawRay(_playerTr.position, Vector3.up, Color.red);
 
                     // looking for holes
                     if (Physics.Raycast(_rayPlace.position, Vector3.down, out _hitFront, 2))
                     {
-                        _ctx.smallJumpSearcher.Value = _hitFront.transform;
+                        _context.smallJumpSearcher.Value = _hitFront.transform;
                     }
-                    else _ctx.smallJumpSearcher.Value = null;
-                        //_ctx.MakeSmallJump.Notify();
+                    else _context.smallJumpSearcher.Value = null;
+                        //_context.MakeSmallJump.Notify();
                     Debug.DrawRay(_rayPlace.position, Vector3.down, Color.red);
 
-                //Debug.LogError($"{_ctx.ioplayer.Value.gameObject.name} {nextpoint}");
+                //Debug.LogError($"{_context.ioplayer.Value.gameObject.name} {nextpoint}");
 
                   await UniTask.Yield();
                 }
@@ -148,8 +148,8 @@ namespace CodeBase.Game.LevelParts.ioPlayer
 
         private void Finish() 
         {
-            _ctx.winnerName.Value = _ctx.ioName;
-            _ctx.gameState.Value = GameState.GAMEOVER;    
+            _context.winnerName.Value = _context.ioName;
+            _context.gameState.Value = GameState.GAMEOVER;    
         }
 
         private void GameStateReciever(GameState state)
@@ -159,10 +159,10 @@ namespace CodeBase.Game.LevelParts.ioPlayer
                 case GameState.PLAY:
                     _isAlive = true;
                     Raycasting();
-                    _ctx.startRun.Notify();
+                    _context.startRun.Notify();
                     LookForJumper();
                     var i = Random.Range(0, 100);
-                    _ctx.ioplayer.Value.gameObject.name = $"io player {i}";
+                    _context.ioplayer.Value.gameObject.name = $"io player {i}";
                     break;
                 case GameState.FINISH:
                     cancellation?.Cancel();
@@ -176,10 +176,10 @@ namespace CodeBase.Game.LevelParts.ioPlayer
         private void GetPlayer(Transform player)
         {
             _playerTr = player;
-            _agent = _ctx._agent.Value;
-            _rayPlace = _ctx.rayPlace.Value;
-            _mask = _ctx.mask.Value;
-            _maskUpper = _ctx.maskUpper.Value;
+            _agent = _context._agent.Value;
+            _rayPlace = _context.rayPlace.Value;
+            _mask = _context.mask.Value;
+            _maskUpper = _context.maskUpper.Value;
         }
 
         private void GetName(Transform view)
@@ -187,7 +187,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             if (view == null) return;
             _name = view;
             _nameTx = _name.GetChild(0).GetComponent<Text>();
-            _nameTx.text = _ctx.ioName;
+            _nameTx.text = _context.ioName;
         }
 
         private async void GetCamera(UnityEngine.Camera cam)
@@ -196,7 +196,7 @@ namespace CodeBase.Game.LevelParts.ioPlayer
             _name.gameObject.GetComponent<Canvas>().worldCamera = cam;
             try
             {
-                while ((_ctx.gameState.Value != GameState.FINISH || _ctx.gameState.Value != GameState.GAMEOVER) || _playerTr.gameObject.activeSelf)
+                while ((_context.gameState.Value != GameState.FINISH || _context.gameState.Value != GameState.GAMEOVER) || _playerTr.gameObject.activeSelf)
                 {
                     _name.LookAt(UnityEngine.Camera.main.transform.position);
                     await UniTask.Yield();

@@ -21,12 +21,12 @@ namespace UniRx.Diagnostics
         {
             // avoid multithread exception.
             // (value.Context == null) can only be called from the main thread.
-            var ctx = (System.Object)value.Context;
+            var context = (System.Object)value.Context;
 
             switch (value.LogType)
             {
                 case LogType.Error:
-                    if (ctx == null)
+                    if (context == null)
                     {
                         Debug.LogError(value.Message);
                     }
@@ -36,7 +36,7 @@ namespace UniRx.Diagnostics
                     }
                     break;
                 case LogType.Exception:
-                    if (ctx == null)
+                    if (context == null)
                     {
                         Debug.LogException(value.Exception);
                     }
@@ -46,7 +46,7 @@ namespace UniRx.Diagnostics
                     }
                     break;
                 case LogType.Log:
-                    if (ctx == null)
+                    if (context == null)
                     {
                         Debug.Log(value.Message);
                     }
@@ -56,7 +56,7 @@ namespace UniRx.Diagnostics
                     }
                     break;
                 case LogType.Warning:
-                    if (ctx == null)
+                    if (context == null)
                     {
                         Debug.LogWarning(value.Message);
                     }

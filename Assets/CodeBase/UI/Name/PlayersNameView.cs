@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class PlayersNameView : MonoBehaviour
 {
-    public struct Ctx
+    public struct Context
     {
         public IContent content;
         public ReactiveProperty<Transform> _nameView;
     }
 
-    private Ctx _ctx;
-    public void SetMain(Ctx Ctx)
+    private Context _context;
+    public void Init(Context Context)
     {
-        _ctx = Ctx;
-        _ctx._nameView.Value = transform;
+        _context = Context;
+        _context._nameView.Value = transform;
 
 
     }

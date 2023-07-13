@@ -402,24 +402,24 @@ namespace DigitalRubyShared
         }
 
 
-        public struct Ctx
+        public struct Context
         {
             public IReactiveProperty<GameState> gameState;
             public ReactiveEvent<Vector2> moveCoordinates;
         }
 
-        private Ctx _ctx;
+        private Context _context;
 
-        public void SetMain(Ctx Ctx)
+        public void Init(Context Context)
         {
-            _ctx = Ctx;
+            _context = Context;
             
             Enable();
             Observable.EveryUpdate().Subscribe(_ => SetCoordinates()).AddTo(this);
-            _ctx.gameState.Subscribe(x => GameStateReciever(x)).AddTo(this);
+            _context.gameState.Subscribe(x => GameStateReciever(x)).AddTo(this);
         }
 
-        private void SetCoordinates() => _ctx.moveCoordinates.Notify(CurrentAmount);
+        private void SetCoordinates() => _context.moveCoordinates.Notify(CurrentAmount);
 
         private void GameStateReciever(GameState state)
         {

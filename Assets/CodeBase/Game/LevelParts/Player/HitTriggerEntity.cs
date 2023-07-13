@@ -4,22 +4,22 @@ namespace CodeBase.Game.LevelParts.Player
 {
     public class HitTriggerEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
            public HitTriggerView hitTriggerView;
            public ReactiveTrigger hit;
         }
 
-        private Ctx _ctx;
+        private Context _context;
 
-        public HitTriggerEntity(Ctx ctx)
+        public HitTriggerEntity(Context context)
         {
-            _ctx = ctx;
-            var hitTriggerViewCtx = new HitTriggerView.Ctx()
+            _context = context;
+            var hitTriggerViewContext = new HitTriggerView.Context()
             {
-                hit = _ctx.hit
+                hit = _context.hit
             };
-            _ctx.hitTriggerView.SetMain(hitTriggerViewCtx);
+            _context.hitTriggerView.Init(hitTriggerViewContext);
         }
     }
 }

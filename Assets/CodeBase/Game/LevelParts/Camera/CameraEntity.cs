@@ -8,7 +8,7 @@ namespace CodeBase.Game.LevelParts.Camera
 {
     public class CameraEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IContent content;
             public ReactiveProperty<Transform> player;
@@ -20,36 +20,36 @@ namespace CodeBase.Game.LevelParts.Camera
             public Transform uiCanvas;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         private readonly CameraView _cameraview;
         private CameraPm _pm;
         private readonly ReactiveProperty<CinemachineVirtualCamera> _vcam;
         private readonly ReactiveProperty<Transform> _startTutorSphere;
-        public CameraEntity(Ctx ctx)
+        public CameraEntity(Context context)
         {
-            _ctx = ctx;
-            _cameraview = Object.Instantiate(ctx.content.GetCamera().GetComponent<CameraView>());
+            _context = context;
+            _cameraview = Object.Instantiate(context.content.GetCamera().GetComponent<CameraView>());
             _vcam = new ReactiveProperty<CinemachineVirtualCamera>();
             _startTutorSphere = new ReactiveProperty<Transform>();
-            var cameraPmCtx = new CameraPm.Ctx()
+            var cameraPmContext = new CameraPm.Context()
             {
-                player = _ctx.player,
+                player = _context.player,
                 vcam = _vcam,
-                gameState = _ctx.gameState,
+                gameState = _context.gameState,
                 _startTutorSphere = _startTutorSphere,
-                needStartTutor = _ctx.needStartTutor,
-                uiCanvas = _ctx.uiCanvas,
-                content = _ctx.content
+                needStartTutor = _context.needStartTutor,
+                uiCanvas = _context.uiCanvas,
+                content = _context.content
             };
-            _pm = new CameraPm(cameraPmCtx);
+            _pm = new CameraPm(cameraPmContext);
             AddUnsafe(_pm);
 
-            _cameraview.SetMain(new CameraView.Ctx
+            _cameraview.Init(new CameraView.Context
             {
-                player = _ctx.player,
-                shake = _ctx.shake,
-                flyup = _ctx.flyup,
-                camera = _ctx.camera,
+                player = _context.player,
+                shake = _context.shake,
+                flyup = _context.flyup,
+                camera = _context.camera,
                 vcam = _vcam,
                 _startTutorSphere = _startTutorSphere
             });

@@ -11,7 +11,7 @@ namespace CodeBase
 {
     public class RootEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public PrefabsInfo prefabs;
             public DigitalRubyShared.FingersJoystickScript controll;
@@ -19,7 +19,7 @@ namespace CodeBase
             public Transform uiCanvas;
         }
 
-        private readonly Ctx _ctx;
+        private readonly Context _context;
         private GameEntity _gameEntity;
         private UIEntity _uIEntity;
         private ControlEntity _controlEntity;
@@ -42,13 +42,11 @@ namespace CodeBase
         private readonly ReactiveProperty<GameObject> _endlessSignTutor = new ReactiveProperty<GameObject>();
         
 
-        public RootEntity(Ctx ctx)
+        public RootEntity(Context context)
         {
-            _ctx = ctx;
-            var level = PlayerPrefs.GetInt("level");
-            _levelIndex = new ReactiveProperty<int>(level);
-            var levelCounter = PlayerPrefs.GetInt("levelCounter");
-            _levelCounter = new ReactiveProperty<int>(levelCounter);
+            _context = context;
+            _levelIndex = new ReactiveProperty<int>(PlayerPrefs.GetInt("level"));
+            _levelCounter = new ReactiveProperty<int>(PlayerPrefs.GetInt("levelCounter"));
             _needStartTutor = new ReactiveProperty<bool>(PlayerPrefs.GetInt("startTutor") == 0);
             Init();
         }
@@ -64,32 +62,32 @@ namespace CodeBase
 
         private void CreateContentLoader()
         {
-            var contentLoaderCtx = new ContentLoader.Ctx
+            var contentLoaderContext = new ContentLoader.Context
             {
-                Prefabs = _ctx.prefabs
+                Prefabs = _context.prefabs
             };
-            _contentLoader = new ContentLoader(contentLoaderCtx);
+            _contentLoader = new ContentLoader(contentLoaderContext);
             AddUnsafe(_contentLoader);
         }
         
         private void CreateControlEntity()
         {
-            var controlEntityCtx = new ControlEntity.Ctx()
+            var controlEntityContext = new ControlEntity.Context()
             {
                 moveCoordinates = _moveCoordinates,
                 onClick = _onClick,
-                controll = _ctx.controll,
+                controll = _context.controll,
                 gameState = _gameState,
-                uiCanvas = _ctx.uiCanvas,
+                uiCanvas = _context.uiCanvas,
                 content = _contentLoader
             };
-            _controlEntity = new ControlEntity(controlEntityCtx);
+            _controlEntity = new ControlEntity(controlEntityContext);
             AddUnsafe(_controlEntity);
         }
 
         private void CreateGameEntity()
         {
-            var gameEntityCtx = new GameEntity.Ctx
+            var gameEntityContext = new GameEntity.Context
             {
                 contentLoader = _contentLoader,
                 levelIndex = _levelIndex,
@@ -101,29 +99,29 @@ namespace CodeBase
                 player = _player,
                 onClick = _onClick,
                 endlessSignTutor = _endlessSignTutor,
-                blocksContainer = _ctx.blocksContainer,
+                blocksContainer = _context.blocksContainer,
                 needStartTutor = _needStartTutor,
                 winnerName = _winnerName,
                 playersRacePlace = _playersRacePlace,
-                uiCanvas = _ctx.uiCanvas,
+                uiCanvas = _context.uiCanvas,
                 countingIsOver = _countingIsOver,
                 startRun = _startRun
             };
-            _gameEntity = new GameEntity(gameEntityCtx);
+            _gameEntity = new GameEntity(gameEntityContext);
             AddUnsafe(_gameEntity);
         }
 
         private void CreateUIEntity()
         {
-            var uiEntityCtx = new UIEntity.Ctx()
+            var uiEntityContext = new UIEntity.Context()
             {
                 gameState = _gameState,
                 content = _contentLoader,
-                uiCanvas = _ctx.uiCanvas,
+                uiCanvas = _context.uiCanvas,
                 countingIsOver = _countingIsOver,
                 endlessSignTutor = _endlessSignTutor
             };
-            _uIEntity = new UIEntity(uiEntityCtx);
+            _uIEntity = new UIEntity(uiEntityContext);
             AddUnsafe(_uIEntity);
         }
 

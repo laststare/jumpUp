@@ -8,7 +8,7 @@ namespace CodeBase.Game.LevelParts.Level
 {
     public class LevelEntity : BaseDisposable
     {
-        public struct Ctx
+        public struct Context
         {
             public IContent content;   
             public IReactiveProperty<GameState> gameState;  
@@ -26,31 +26,31 @@ namespace CodeBase.Game.LevelParts.Level
             public ReactiveProperty<int> playersRacePlace;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         private readonly LevelPm _levelPm;
 
-        public LevelEntity(Ctx ctx)
+        public LevelEntity(Context context)
         {
-            _ctx = ctx;
+            _context = context;
            
-            var levelPmCtx = new LevelPm.Ctx()
+            var levelPmContext = new LevelPm.Context()
             {
-                content = _ctx.content,
-                gameState = _ctx.gameState,
-                Level = _ctx.Level,
-                player = _ctx.player,
-                floorPart = _ctx.floorPart,
-                roofPart = _ctx.roofPart,
-                blocksContainer = _ctx.blocksContainer,
-                destroy = _ctx.destroy,
-                levelIndex = _ctx.levelIndex,
-                camera = _ctx.camera,
-                players = _ctx.players,
-                leader = _ctx.leader,
-                winnerName = _ctx.winnerName,
-                playersRacePlace = _ctx.playersRacePlace
+                content = _context.content,
+                gameState = _context.gameState,
+                Level = _context.Level,
+                player = _context.player,
+                floorPart = _context.floorPart,
+                roofPart = _context.roofPart,
+                blocksContainer = _context.blocksContainer,
+                destroy = _context.destroy,
+                levelIndex = _context.levelIndex,
+                camera = _context.camera,
+                players = _context.players,
+                leader = _context.leader,
+                winnerName = _context.winnerName,
+                playersRacePlace = _context.playersRacePlace
             };
-            _levelPm = new LevelPm(levelPmCtx);
+            _levelPm = new LevelPm(levelPmContext);
 
             AddUnsafe(_levelPm);
         }

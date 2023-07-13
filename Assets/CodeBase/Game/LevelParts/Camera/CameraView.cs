@@ -10,7 +10,7 @@ namespace CodeBase.Game.LevelParts.Camera
     public class CameraView : MonoBehaviour
     {
 
-        public struct Ctx
+        public struct Context
         {
             public IReadOnlyReactiveProperty<Transform> player;
             public ReactiveEvent<float> shake;
@@ -20,21 +20,21 @@ namespace CodeBase.Game.LevelParts.Camera
             public ReactiveProperty<Transform> _startTutorSphere;
         }
 
-        private Ctx _ctx;
+        private Context _context;
         [SerializeField]
         private GameObject startTutorSphere;
 
         [SerializeField]
         private CinemachineVirtualCamera vcam;
-        public void SetMain(Ctx ctx)
+        public void Init(Context context)
         {
-            _ctx = ctx;
-            _ctx.player.Subscribe(SetPlayer).AddTo(this);   
-            _ctx.shake.SubscribeWithSkip(Shake).AddTo(this);
-            _ctx.flyup.SubscribeWithSkip(FovChanger).AddTo(this);
-            _ctx.camera.Value = GetComponent<UnityEngine.Camera>() ;
-            _ctx.vcam.Value = vcam;
-            _ctx._startTutorSphere.Value = startTutorSphere.transform;
+            _context = context;
+            _context.player.Subscribe(SetPlayer).AddTo(this);   
+            _context.shake.SubscribeWithSkip(Shake).AddTo(this);
+            _context.flyup.SubscribeWithSkip(FovChanger).AddTo(this);
+            _context.camera.Value = GetComponent<UnityEngine.Camera>() ;
+            _context.vcam.Value = vcam;
+            _context._startTutorSphere.Value = startTutorSphere.transform;
         }
 
         private void SetPlayer(Transform player)

@@ -7,20 +7,20 @@ namespace CodeBase.UI.Input
 {
     public class ClickInputView : MonoBehaviour, IPointerDownHandler
     {
-        public struct Ctx
+        public struct Context
         {
             public ReactiveTrigger onClick;
         }
 
-        private Ctx _ctx;
-        public void SetMain(Ctx ctx)
+        private Context _context;
+        public void Init(Context context)
         {
-            _ctx = ctx;
+            _context = context;
         }
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            _ctx.onClick.Notify();
+            _context.onClick.Notify();
         }
     }
 }
